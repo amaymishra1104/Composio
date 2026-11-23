@@ -145,6 +145,11 @@ async def main():
         help="Run the automated verification stage (Pass 1 -> Verification -> Pass 2)",
     )
     parser.add_argument(
+        "--allow-heuristic",
+        action="store_true",
+        help="Permit running in offline heuristic mode when no LLM key or endpoint is found (default: False)",
+    )
+    parser.add_argument(
         "--verbose",
         "-v",
         action="store_true",
@@ -157,7 +162,10 @@ async def main():
     if args.verify:
         from core.verifier import VerificationEngine
         console.print("[bold cyan]=== Running Automated Verification Stage ===[/]\n")
-        engine = VerificationEngine(concurrency_limit=args.concurrency)
+        engine = VerificationEngine(
+            concurrency_limit=args.concurrency,
+            allow_heuristic=args.allow_heuristic,
+        )
         report = await engine.verify_pass1(
             pass1_path="results/pass1.json",
             apps_csv="apps.csv",
@@ -192,6 +200,7 @@ async def main():
     pipeline = ResearchPipeline(
         concurrency_limit=args.concurrency,
         bypass_cache=args.no_cache,
+        allow_heuristic=args.allow_heuristic,
     )
 
     records = await pipeline.run(apps, output_pass=args.pass_num)

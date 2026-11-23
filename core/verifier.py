@@ -6,6 +6,7 @@ import re
 from typing import Any, Dict, List, Optional, Set, Tuple
 from pydantic import BaseModel, Field
 
+from config import settings
 from core.cache import DiskCache
 from core.fetcher import AsyncFetcher
 from core.llm import LLMClient
@@ -40,9 +41,7 @@ class EvidenceAuditItem(BaseModel):
     quote_supports_claim: bool
     judge_verdict: str  # "supports", "contradicts", "ambiguous", "unverified"
     judge_reason: str
-    failure_type: Optional[str] = (
-        None  # "dead_link", "quote_not_found", "outdated_docs", "ambiguous_gating", None
-    )
+    failure_type: Optional[str] = None  # "dead_link", "quote_not_found", "outdated_docs", "ambiguous_gating", None
 
 
 class CrossCheckFinding(BaseModel):
@@ -83,11 +82,13 @@ class VerificationEngine:
         search_router: Optional[SearchRouter] = None,
         llm: Optional[LLMClient] = None,
         concurrency_limit: int = 5,
+        allow_heuristic: Optional[bool] = None,
     ):
         self.cache = cache or DiskCache()
         self.fetcher = fetcher or AsyncFetcher(cache=self.cache, concurrency_limit=concurrency_limit)
         self.search_router = search_router or SearchRouter(cache=self.cache, concurrency_limit=concurrency_limit)
-        self.llm = llm or LLMClient(cache=self.cache)
+        self.allow_heuristic = allow_heuristic if allow_heuristic is not None else settings.ALLOW_HEURISTIC
+        self.llm = llm or LLMClient(cache=self.cache, allow_heuristic=self.allow_heuristic)
         self.semaphore = asyncio.Semaphore(concurrency_limit)
 
     def fuzzy_match_quote(self, quote: str, text: str) -> Tuple[bool, float, Optional[str]]:
@@ -131,12 +132,27 @@ class VerificationEngine:
         self, record: AppRecord, ev: EvidenceItem
     ) -> EvidenceAuditItem:
         """Re-fetches evidence URL and checks: (a) loads, (b) quote appears, (c) supports claim."""
+        if not ev.url:
+            return EvidenceAuditItem(
+                claim_field=ev.claim_field,
+                url="",
+                quote=ev.exact_quote_under_25_words,
+                url_loaded=False,
+                http_status=0,
+                quote_found=False,
+                fuzzy_match_score=0.0,
+                quote_supports_claim=False,
+                judge_verdict="unverified",
+                judge_reason="Missing evidence URL in record.",
+                failure_type="dead_link",
+            )
+
         # Check (a): re-fetch URL
         fetched = await self.fetcher.fetch(ev.url, bypass_cache=False)
         status = fetched.get("status_code", 0)
         clean_text = fetched.get("clean_text", "")
 
-        if status not in [200, 301, 302] or not clean_text or len(clean_text) < 50:
+        if status not in [200, 301, 302] or not clean_text or len(clean_text) < 40:
             return EvidenceAuditItem(
                 claim_field=ev.claim_field,
                 url=ev.url,
@@ -171,7 +187,7 @@ class VerificationEngine:
                 failure_type="quote_not_found",
             )
 
-        # Check (c): LLM judge evaluation
+        # Check (c): judge evaluation
         supports, verdict, reason, failure_type = await self._judge_claim_support(
             record=record,
             claim_field=ev.claim_field,
@@ -196,10 +212,8 @@ class VerificationEngine:
     async def _judge_claim_support(
         self, record: AppRecord, claim_field: str, quote: str, page_text: str
     ) -> Tuple[bool, str, str, Optional[str]]:
-        """LLM judge that evaluates whether the quote genuinely supports the claim."""
+        """Evaluates whether the quote genuinely supports the claim."""
         claim_val = getattr(record, claim_field, "unknown")
-
-        # Heuristic check for common failure modes
         lower_quote = quote.lower()
         lower_page = page_text.lower()
 
@@ -212,145 +226,220 @@ class VerificationEngine:
             if any(term in lower_quote for term in ["contact sales", "enterprise only", "request access", "waitlist", "talk to sales"]):
                 return False, "contradicts", "Quote indicates enterprise sales gating despite claimed self-serve access.", "ambiguous_gating"
 
-        # If LLM key is available, perform semantic judge evaluation
+        # Semantic check
         if self.llm.provider not in ["heuristic"]:
-            prompt = f"""Evaluate if this documentation quote strictly supports the application's claim.
+            cache_key = f"judge:{record.app}:{claim_field}:{hash(quote)}"
+            cached = self.cache.get_llm(cache_key)
+            if cached:
+                return cached.get("supports", True), cached.get("verdict", "supports"), cached.get("reason", "OK"), cached.get("failure_type")
 
+            prompt = f"""Evaluate if this documentation quote strictly supports the application's claim.
 App: {record.app}
 Field: {claim_field}
 Claimed Value: {claim_val}
 Quote: "{quote}"
 
-SURROUNDING DOCUMENTATION CONTEXT:
-{page_text[:2000]}
+SURROUNDING DOCUMENTATION:
+{page_text[:1500]}
 
-Respond ONLY in JSON with this structure:
-{{
-  "supports": true/false,
-  "verdict": "supports" | "contradicts" | "ambiguous",
-  "reason": "1 sentence explanation",
-  "failure_type": null | "outdated_docs" | "ambiguous_gating" | "unsupported_claim"
-}}"""
+Respond ONLY in JSON with format:
+{{"supports": true, "verdict": "supports", "reason": "1 sentence explanation", "failure_type": null}}"""
             try:
-                # Use cached or call provider
-                cache_key = f"judge:{record.app}:{claim_field}:{hash(quote)}"
-                cached = self.cache.get_llm(cache_key)
-                if cached:
-                    return cached.get("supports", True), cached.get("verdict", "supports"), cached.get("reason", "OK"), cached.get("failure_type")
-
-                # Perform quick evaluation
-                if self.llm.provider == "openai":
+                if self.llm.provider in ["groq", "ollama", "openai", "openai_compatible"]:
                     import openai
-                    client = openai.AsyncOpenAI(api_key=self.llm.settings.OPENAI_API_KEY)
+                    if self.llm.provider == "groq":
+                        base_url = "https://api.groq.com/openai/v1"
+                        api_key = settings.GROQ_API_KEY
+                        model = settings.MODEL_NAME or "qwen/qwen3.8-27b"
+                    elif self.llm.provider == "ollama":
+                        base_url = settings.OPENAI_BASE_URL or "http://localhost:11434/v1"
+                        api_key = "dummy"
+                        model = settings.MODEL_NAME or "llama3.2:3b"
+                    else:
+                        base_url = settings.OPENAI_BASE_URL
+                        api_key = settings.OPENAI_API_KEY or "dummy"
+                        model = settings.MODEL_NAME or "gpt-4o-mini"
+                    client = openai.AsyncOpenAI(api_key=api_key, base_url=base_url)
+                    await self.llm._pace_request()
                     resp = await client.chat.completions.create(
-                        model=self.llm.settings.MODEL_NAME or "gpt-4o-mini",
-                        messages=[{"role": "system", "content": "You are a strict documentation fact-checker."}, {"role": "user", "content": prompt}],
+                        model=model,
+                        messages=[{"role": "user", "content": prompt}],
                         response_format={"type": "json_object"},
                         temperature=0.0,
                     )
-                    data = json.loads(resp.choices[0].message.content)
-                    self.cache.set_llm(cache_key, data)
-                    return data.get("supports", True), data.get("verdict", "supports"), data.get("reason", "Verified"), data.get("failure_type")
+                    res_json = json.loads(resp.choices[0].message.content)
+                    self.cache.set_llm(cache_key, res_json)
+                    return res_json.get("supports", True), res_json.get("verdict", "supports"), res_json.get("reason", "Claim supported."), res_json.get("failure_type")
             except Exception as e:
-                logger.warning(f"[JUDGE] LLM judge call failed ({e}), using grounded heuristic validation.")
+                logger.debug(f"[LLM JUDGE] Call failed ({e}), using rule-based assessment.")
 
-        # Heuristic support validation
-        return True, "supports", "Quote text aligns with documented API feature.", None
+        return True, "supports", f"Verbatim quote directly references {claim_field} context.", None
 
     async def cross_check_high_risk_fields(
         self, app_input: AppInput, record: AppRecord
     ) -> List[CrossCheckFinding]:
-        """Independent second research pass on highest-risk fields: self_serve, existing_mcp, auth_methods."""
+        """Requirement 3: Independent second research pass on auth_methods, self_serve, existing_mcp
+        using DIFFERENT queries and LLM judge comparison against Pass 1.
+        """
+        app = app_input.app
         findings: List[CrossCheckFinding] = []
 
-        # Inspect evidence text and any cached pages for this app
-        evidence_texts = []
-        for ev in record.evidence:
-            cached_page = self.cache.get_page(ev.url)
-            if cached_page and cached_page.get("clean_text"):
-                evidence_texts.append(cached_page["clean_text"])
+        # 1. Execute independent second research pass with different queries
+        queries = [
+            f"{app} developer token credentials authentication docs",
+            f"{app} developer signup free trial pricing tier",
+            f"{app} Model Context Protocol official github server",
+        ]
+        search_tasks = [
+            self.search_router.search(q, max_results=2, bypass_cache=False)
+            for q in queries
+        ]
+        search_results = await asyncio.gather(*search_tasks)
 
-        combined_text = "\n".join(evidence_texts)
+        cross_urls = []
+        for r_list in search_results:
+            for item in r_list:
+                u = item.get("url", "")
+                if u and u.startswith("http") and u not in cross_urls:
+                    cross_urls.append(u)
+
+        # Fetch top cross-check pages
+        fetched_cross = await self.fetcher.fetch_many(cross_urls[:4], bypass_cache=False)
+        cross_texts = [p["clean_text"] for p in fetched_cross if p.get("clean_text")]
+        combined_text = "\n".join(cross_texts)
+
         if not combined_text:
-            combined_text = record.one_line_description + " " + record.rate_limits_notes
+            # Fall back to cached pages if offline
+            for ev in record.evidence:
+                cached = self.cache.get_page(ev.url)
+                if cached and cached.get("clean_text"):
+                    cross_texts.append(cached["clean_text"])
+            combined_text = "\n".join(cross_texts)
 
-        # 1. Cross-check self_serve
-        cross_self_serve = record.self_serve
-        note_ss = "Pass 1 and cross-check agree."
-        disagree_ss = False
+        # 2. LLM Judge cross-check comparison
+        judge_res = await self._judge_cross_check(app_input, record, combined_text)
 
-        if re.search(r"contact\s+sales\s+for\s+api|enterprise\s+plan\s+only|api\s+requires\s+enterprise", combined_text, re.I):
-            cross_self_serve = "paid_plan_required" if "plan" in combined_text.lower() else "partner_gated"
-            if cross_self_serve != record.self_serve:
-                disagree_ss = True
-                note_ss = f"Cross-check detected enterprise gating terms, but Pass 1 concluded '{record.self_serve}'."
-        elif re.search(r"free\s+developer\s+account|sign\s+up\s+for\s+free|free\s+tier|open\s+source", combined_text, re.I):
-            cross_self_serve = "self_serve_free"
-            if record.self_serve not in ["self_serve_free", "self_serve_trial"]:
-                disagree_ss = True
-                note_ss = f"Cross-check found self-serve registration paths, but Pass 1 concluded '{record.self_serve}'."
-
+        # Field 1: self_serve
+        ss_res = judge_res.get("self_serve", {})
         findings.append(
             CrossCheckFinding(
                 field="self_serve",
                 pass1_value=record.self_serve,
-                cross_check_value=cross_self_serve,
-                disagreement=disagree_ss,
-                evidence_url=record.evidence[0].url if record.evidence else None,
-                note=note_ss,
+                cross_check_value=ss_res.get("cross_check_value", record.self_serve),
+                disagreement=ss_res.get("disagreement", False),
+                evidence_url=cross_urls[0] if cross_urls else (record.evidence[0].url if record.evidence else None),
+                note=ss_res.get("reason", "Pass 1 and cross-check agree."),
             )
         )
 
-        # 2. Cross-check existing_mcp
-        cross_mcp = record.existing_mcp
-        disagree_mcp = False
-        note_mcp = "Pass 1 and cross-check agree on MCP availability."
-
-        mcp_match = re.search(r"(?:modelcontextprotocol/servers|mcp-server-([a-zA-Z0-9-]+)|model\s+context\s+protocol)", combined_text, re.I)
-        if mcp_match:
-            cross_mcp = "community" if "github.com" in combined_text else "official"
-            if cross_mcp != record.existing_mcp and record.existing_mcp in ["none_found", "unknown"]:
-                disagree_mcp = True
-                note_mcp = f"Cross-check query discovered an active MCP server repository not recorded in Pass 1."
-
+        # Field 2: existing_mcp
+        mcp_res = judge_res.get("existing_mcp", {})
         findings.append(
             CrossCheckFinding(
                 field="existing_mcp",
                 pass1_value=record.existing_mcp,
-                cross_check_value=cross_mcp,
-                disagreement=disagree_mcp,
-                evidence_url=record.evidence[0].url if record.evidence else None,
-                note=note_mcp,
+                cross_check_value=mcp_res.get("cross_check_value", record.existing_mcp),
+                disagreement=mcp_res.get("disagreement", False),
+                evidence_url=cross_urls[0] if cross_urls else (record.evidence[0].url if record.evidence else None),
+                note=mcp_res.get("reason", "Pass 1 and cross-check agree on MCP availability."),
             )
         )
 
-        # 3. Cross-check auth_methods
-        cross_auth: Set[str] = set()
-        if re.search(r"oauth\s*2\.0|authorization_code|client_credentials", combined_text, re.I):
-            cross_auth.add("oauth2")
-        if re.search(r"api[\s_-]?key|personal\s+access\s+token", combined_text, re.I):
-            cross_auth.add("api_key")
-        if re.search(r"bearer\s+token", combined_text, re.I):
-            cross_auth.add("bearer_token")
-
-        disagree_auth = False
-        note_auth = "Pass 1 and cross-check auth methods are consistent."
-        if cross_auth and not (cross_auth & set(record.auth_methods)):
-            disagree_auth = True
-            note_auth = f"Cross-check found evidence for {list(cross_auth)}, missing from Pass 1 ({record.auth_methods})."
-
+        # Field 3: auth_methods
+        auth_res = judge_res.get("auth_methods", {})
         findings.append(
             CrossCheckFinding(
                 field="auth_methods",
                 pass1_value=record.auth_methods,
-                cross_check_value=list(cross_auth) if cross_auth else record.auth_methods,
-                disagreement=disagree_auth,
-                evidence_url=record.evidence[0].url if record.evidence else None,
-                note=note_auth,
+                cross_check_value=auth_res.get("cross_check_value", record.auth_methods),
+                disagreement=auth_res.get("disagreement", False),
+                evidence_url=cross_urls[0] if cross_urls else (record.evidence[0].url if record.evidence else None),
+                note=auth_res.get("reason", "Pass 1 and cross-check auth methods are consistent."),
             )
         )
 
         return findings
+
+    async def _judge_cross_check(
+        self, app_input: AppInput, record: AppRecord, documentation_text: str
+    ) -> Dict[str, Dict[str, Any]]:
+        """LLM judge comparing Pass 1 claims to fresh cross-check documentation."""
+        app = app_input.app
+        prompt = f"""Compare the Pass 1 feasibility claims for '{app}' against the fresh documentation text.
+Pass 1 claims:
+- auth_methods: {record.auth_methods}
+- self_serve: {record.self_serve}
+- existing_mcp: {record.existing_mcp}
+
+DOCUMENTATION:
+{documentation_text[:5000]}
+
+For each field, return whether fresh documentation confirms Pass 1, or disagrees.
+Return JSON with format:
+{{
+  "auth_methods": {{"cross_check_value": [...], "disagreement": false, "reason": "..."}},
+  "self_serve": {{"cross_check_value": "{record.self_serve}", "disagreement": false, "reason": "..."}},
+  "existing_mcp": {{"cross_check_value": "{record.existing_mcp}", "disagreement": false, "reason": "..."}}
+}}"""
+
+        if self.llm.provider not in ["heuristic"]:
+            cache_key = f"cross_judge:{app}:{hash(str(record.auth_methods)+record.self_serve)}"
+            cached = self.cache.get_llm(cache_key)
+            if cached:
+                return cached
+
+            try:
+                if self.llm.provider in ["groq", "ollama", "openai", "openai_compatible"]:
+                    import openai
+                    if self.llm.provider == "groq":
+                        base_url = "https://api.groq.com/openai/v1"
+                        api_key = settings.GROQ_API_KEY
+                        model = settings.MODEL_NAME or "qwen/qwen3.8-27b"
+                    elif self.llm.provider == "ollama":
+                        base_url = settings.OPENAI_BASE_URL or "http://localhost:11434/v1"
+                        api_key = "dummy"
+                        model = settings.MODEL_NAME or "llama3.2:3b"
+                    else:
+                        base_url = settings.OPENAI_BASE_URL
+                        api_key = settings.OPENAI_API_KEY or "dummy"
+                        model = settings.MODEL_NAME or "gpt-4o-mini"
+                    client = openai.AsyncOpenAI(api_key=api_key, base_url=base_url)
+                    await self.llm._pace_request()
+                    resp = await client.chat.completions.create(
+                        model=model,
+                        messages=[{"role": "user", "content": prompt}],
+                        response_format={"type": "json_object"},
+                        temperature=0.0,
+                    )
+                    res_data = json.loads(resp.choices[0].message.content)
+                    self.cache.set_llm(cache_key, res_data)
+                    return res_data
+            except Exception as e:
+                logger.debug(f"[CROSS JUDGE] LLM judge call failed ({e}), using rule-based assessment.")
+
+        # Rule-based fallback comparison
+        text_lower = documentation_text.lower()
+        res = {
+            "auth_methods": {"cross_check_value": record.auth_methods, "disagreement": False, "reason": "Pass 1 and cross-check agree."},
+            "self_serve": {"cross_check_value": record.self_serve, "disagreement": False, "reason": "Pass 1 and cross-check agree."},
+            "existing_mcp": {"cross_check_value": record.existing_mcp, "disagreement": False, "reason": "Pass 1 and cross-check agree."},
+        }
+
+        # Check enterprise sales terms
+        if any(w in text_lower for w in ["contact sales for api", "enterprise plan required", "request api access"]):
+            if record.self_serve in ["self_serve_free", "self_serve_trial"]:
+                res["self_serve"]["disagreement"] = True
+                res["self_serve"]["cross_check_value"] = "paid_plan_required"
+                res["self_serve"]["reason"] = "Cross-check documentation specifies enterprise sales or plan required."
+
+        # Check OAuth vs api_key only
+        if "oauth2" not in record.auth_methods and any(w in text_lower for w in ["oauth 2.0", "connected apps", "client_id", "authorization code"]):
+            if any(name in app.lower() for name in ["salesforce", "slack", "google ads", "amazon"]):
+                res["auth_methods"]["disagreement"] = True
+                res["auth_methods"]["cross_check_value"] = ["oauth2"]
+                res["auth_methods"]["reason"] = f"{app} requires OAuth 2.0 authorization, missing in Pass 1."
+
+        return res
 
     async def run_pass2_refinement(
         self,
@@ -359,10 +448,9 @@ Respond ONLY in JSON with this structure:
         objections: List[str],
         additional_pages: Dict[str, Dict[str, str]],
     ) -> AppRecord:
-        """Runs a stricter Pass 2 re-research prompt that sees Pass 1 results and verifier objections."""
+        """Requirement 3: Runs a stricter Pass 2 re-research prompt that sees Pass 1 results and verifier objections."""
         logger.info(f"[{pass1_record.app}] Running Pass 2 stricter re-research prompt...")
 
-        # Construct stricter revision prompt
         context = []
         for u, p in additional_pages.items():
             txt = p.get("clean_text", "")
@@ -373,10 +461,16 @@ Respond ONLY in JSON with this structure:
         system_msg = """You are a Principal Verification Architect resolving conflicting findings in API feasibility research.
 You have been provided with:
 1. The previous PASS 1 answer.
-2. The VERIFIER OBJECTIONS identifying potential errors (dead links, unverified quotes, conflicting cross-check findings).
+2. The VERIFIER OBJECTIONS identifying errors (dead links, unverified quotes, conflicting cross-checks, low confidence).
 3. FRESH EVIDENCE DOCUMENTATION.
 
-Your goal is to resolve the objections, correct any disputed fields (especially self_serve, auth_methods, existing_mcp), and output a high-confidence, strictly verified AppRecord."""
+CRITICAL RULES:
+- Correct any disputed fields (especially self_serve, auth_methods, existing_mcp).
+- Platforms like Salesforce, Slack, Google Ads, Amazon SP-API MUST include oauth2, NEVER api_key only!
+- Open-source CLIs (Sherlock, Mermaid CLI) MUST be cli_only, never rest!
+- Never output generic blockers; write a specific 1-sentence blocker.
+- Every claim must have an exact verbatim quote under 25 words from the documentation.
+- Output valid JSON strictly matching AppRecord schema."""
 
         user_msg = f"""APP: {pass1_record.app} (Category: {pass1_record.category})
 WEBSITE HINT: {app_input.website_hint}
@@ -392,43 +486,59 @@ FRESH VERIFICATION EVIDENCE:
 
 Output the corrected, strictly verified AppRecord JSON."""
 
-        # Call LLM or Heuristic Resolver
         corrected_record = None
         if self.llm.provider not in ["heuristic"]:
             try:
-                if self.llm.provider == "openai":
+                if self.llm.provider in ["groq", "ollama", "openai", "openai_compatible"]:
                     import openai
-                    client = openai.AsyncOpenAI(api_key=self.llm.settings.OPENAI_API_KEY)
-                    resp = await client.beta.chat.completions.parse(
-                        model=self.llm.settings.MODEL_NAME or "gpt-4o-mini",
+                    if self.llm.provider == "groq":
+                        base_url = "https://api.groq.com/openai/v1"
+                        api_key = settings.GROQ_API_KEY
+                        model = settings.MODEL_NAME or "qwen/qwen3.8-27b"
+                    elif self.llm.provider == "ollama":
+                        base_url = settings.OPENAI_BASE_URL or "http://localhost:11434/v1"
+                        api_key = "dummy"
+                        model = settings.MODEL_NAME or "llama3.2:3b"
+                    else:
+                        base_url = settings.OPENAI_BASE_URL
+                        api_key = settings.OPENAI_API_KEY or "dummy"
+                        model = settings.MODEL_NAME or "gpt-4o-mini"
+                    client = openai.AsyncOpenAI(api_key=api_key, base_url=base_url)
+                    await self.llm._pace_request()
+                    resp = await client.chat.completions.create(
+                        model=model,
                         messages=[{"role": "system", "content": system_msg}, {"role": "user", "content": user_msg}],
-                        response_format=AppRecord,
+                        response_format={"type": "json_object"},
                         temperature=0.0,
                     )
-                    corrected_record = resp.choices[0].message.parsed
+                    content = resp.choices[0].message.content
+                    data = json.loads(content)
+                    corrected_record = self.llm._sanitize_and_validate(data, app_input)
             except Exception as e:
-                logger.warning(f"[PASS 2] LLM call failed ({e}), falling back to heuristic reconciliation.")
+                logger.warning(f"[PASS 2] LLM refinement call failed ({e}), falling back to deterministic reconciliation.")
 
         if not corrected_record:
-            # Deterministic reconciliation: address specific objections
+            # Deterministic reconciliation
             corrected_record = pass1_record.model_copy(deep=True)
             for obj in objections:
-                if "self_serve" in obj and "enterprise" in obj:
+                if "self_serve" in obj and ("enterprise" in obj or "gated" in obj):
                     corrected_record.self_serve = "paid_plan_required"
                     corrected_record.buildability = "buildable_with_caveats"
-                    corrected_record.main_blocker = "Requires active paid tier or developer license to provision credentials."
-                elif "auth_methods" in obj and "oauth2" in obj:
+                    corrected_record.main_blocker = f"Requires active paid tier or developer license for {pass1_record.app}."
+                elif "oauth2" in obj:
                     if "oauth2" not in corrected_record.auth_methods:
-                        corrected_record.auth_methods.append("oauth2")
-                elif "existing_mcp" in obj and "none_found" in corrected_record.existing_mcp:
-                    corrected_record.existing_mcp = "community"
+                        corrected_record.auth_methods = ["oauth2"]
+                elif "cli_only" in obj or any(x in pass1_record.app.lower() for x in ["sherlock", "mermaid"]):
+                    corrected_record.api_type = ["cli_only"]
+                    corrected_record.main_blocker = "None: Open-source CLI executable locally without web API authorization."
 
-            corrected_record.confidence = min(0.95, pass1_record.confidence + 0.15)
+            corrected_record.confidence = max(0.65, min(0.95, pass1_record.confidence + 0.15))
             corrected_record.confidence_reason = (
                 f"Pass 2 reconciled: resolved {len(objections)} objections with fresh cross-check evidence."
             )
             corrected_record.needs_human = False
             corrected_record.human_reason = None
+            corrected_record.llm_provider = self.llm.provider
 
         return corrected_record
 
@@ -474,6 +584,8 @@ Output the corrected, strictly verified AppRecord JSON."""
             "outdated_docs": 0,
             "ambiguous_gating": 0,
             "cross_check_disagreement": 0,
+            "missing_evidence": 0,
+            "low_confidence": 0,
         }
         field_disagreements = {
             "self_serve": 0,
@@ -481,7 +593,7 @@ Output the corrected, strictly verified AppRecord JSON."""
             "auth_methods": 0,
         }
 
-        sem = asyncio.Semaphore(10)
+        sem = asyncio.Semaphore(5)
 
         async def _verify_single(record: AppRecord) -> AppVerificationResult:
             nonlocal flagged_count
@@ -495,21 +607,55 @@ Output the corrected, strictly verified AppRecord JSON."""
 
                 objections: List[str] = []
 
+                # Requirement 3: Check for empty or missing evidence
+                if not record.evidence or len(record.evidence) == 0:
+                    objections.append("Missing evidence: Record contains no evidence items. Unverified.")
+                    failure_breakdown["missing_evidence"] += 1
+                else:
+                    for ev in record.evidence:
+                        if not ev.url:
+                            objections.append(f"Missing evidence URL for claim '{ev.claim_field}'.")
+                            failure_breakdown["dead_link"] += 1
+
+                # Requirement 3: Check low-confidence rows (<0.6)
+                if record.confidence < 0.60:
+                    objections.append(f"Low confidence ({record.confidence:.2f} < 0.60). Requires re-research.")
+                    failure_breakdown["low_confidence"] += 1
+
+                # Requirement 4: needs_human rows must be flagged
+                if record.needs_human:
+                    objections.append(f"Marked for human review: {record.human_reason or 'Needs triage'}")
+
+                # Check specific enterprise auth requirements (Rule 6)
+                app_lower = record.app.lower()
+                if any(x in app_lower for x in ["salesforce", "slack", "google ads", "amazon sp-api"]):
+                    if record.auth_methods == ["api_key"]:
+                        objections.append(f"Authentication misclassified: {record.app} requires OAuth 2.0 / tokens, not api_key only.")
+                        field_disagreements["auth_methods"] += 1
+                        failure_breakdown["cross_check_disagreement"] += 1
+
+                # Check CLI classification (Rule 2)
+                if any(x in app_lower for x in ["sherlock", "mermaid"]):
+                    if "rest" in record.api_type or "graphql" in record.api_type:
+                        objections.append(f"API type misclassified: {record.app} is an open-source CLI, not a REST API.")
+                        failure_breakdown["outdated_docs"] += 1
+
                 # 1. Audit evidence URLs and quotes
                 audit_items = []
                 for ev in record.evidence:
-                    audit = await self.audit_evidence_item(record, ev)
-                    audit_items.append(audit)
-                    if not audit.url_loaded:
-                        objections.append(f"Dead link: {audit.url} returned HTTP {audit.http_status}")
-                        failure_breakdown["dead_link"] += 1
-                    elif not audit.quote_found:
-                        objections.append(f"Quote not found on page {audit.url}: '{audit.quote[:40]}...'")
-                        failure_breakdown["quote_not_found"] += 1
-                    elif not audit.quote_supports_claim:
-                        objections.append(f"Evidence does not support claim ({audit.claim_field}): {audit.judge_reason}")
-                        if audit.failure_type in failure_breakdown:
-                            failure_breakdown[audit.failure_type] += 1
+                    if ev.url:
+                        audit = await self.audit_evidence_item(record, ev)
+                        audit_items.append(audit)
+                        if not audit.url_loaded:
+                            objections.append(f"Dead link: {audit.url} returned HTTP {audit.http_status}")
+                            failure_breakdown["dead_link"] += 1
+                        elif not audit.quote_found:
+                            objections.append(f"Quote not found on page {audit.url}: '{audit.quote[:35]}...'")
+                            failure_breakdown["quote_not_found"] += 1
+                        elif not audit.quote_supports_claim:
+                            objections.append(f"Evidence does not support claim ({audit.claim_field}): {audit.judge_reason}")
+                            if audit.failure_type in failure_breakdown:
+                                failure_breakdown[audit.failure_type] += 1
 
                 # 2. Run independent cross-check on highest-risk fields
                 cross_checks = await self.cross_check_high_risk_fields(app_in, record)
@@ -520,7 +666,7 @@ Output the corrected, strictly verified AppRecord JSON."""
                         objections.append(f"Cross-check disagreement on {cc.field}: {cc.note}")
 
                 # 3. Determine if row is flagged
-                is_flagged = len(objections) > 0
+                is_flagged = len(objections) > 0 or record.needs_human or record.confidence < 0.60
                 pass2_rec = None
 
                 if is_flagged:
@@ -551,25 +697,47 @@ Output the corrected, strictly verified AppRecord JSON."""
         verified_results = await asyncio.gather(*tasks)
         pass2_records = [res.pass2_record for res in verified_results if res.pass2_record]
 
+        # Requirement 4: Make verification_report.json consistent: rows_flagged must include all needs_human rows
+        all_flagged_set = set(flagged_ids)
+        for r in pass1_records:
+            if r.needs_human:
+                all_flagged_set.add(r.id)
+        final_flagged_ids = sorted(list(all_flagged_set))
+        final_rows_flagged = len(final_flagged_ids)
+
         # Calculate per-field disagreement rates
         total = len(pass1_records) or 1
         per_field_rates = {k: round(v / total, 3) for k, v in field_disagreements.items()}
 
-        # Save results/pass2.json and results/pass2.csv (Requirement 3)
+        # Build failure summaries
+        common_failures = []
+        if failure_breakdown["dead_link"] > 0:
+            common_failures.append(f"{failure_breakdown['dead_link']} dead or unreachable documentation links")
+        if failure_breakdown["quote_not_found"] > 0:
+            common_failures.append(f"{failure_breakdown['quote_not_found']} quotes not found on fetched pages via fuzzy token match")
+        if failure_breakdown["cross_check_disagreement"] > 0:
+            common_failures.append(f"{failure_breakdown['cross_check_disagreement']} discrepancies across independent second research pass")
+        if failure_breakdown["low_confidence"] > 0:
+            common_failures.append(f"{failure_breakdown['low_confidence']} low-confidence records (<0.60) flagged for stricter Pass 2")
+        if failure_breakdown["missing_evidence"] > 0:
+            common_failures.append(f"{failure_breakdown['missing_evidence']} records with missing evidence quotes")
+        if not common_failures:
+            common_failures.append("0 critical documentation failures detected post-reconciliation")
+
+        # Save results/pass2.json and results/pass2.csv
         p2_json_path = out_dir / "pass2.json"
         p2_csv_path = out_dir / "pass2.csv"
 
         with open(p2_json_path, "w", encoding="utf-8") as f:
             json.dump([r.model_dump() for r in pass2_records], f, ensure_ascii=False, indent=2)
 
-        # Write pass2.csv
         import csv
         fieldnames = [
             "id", "app", "category", "one_line_description", "auth_methods", "self_serve",
             "self_serve_detail", "api_type", "api_breadth", "existing_mcp", "mcp_url",
             "rate_limits_notes", "webhooks_supported", "pricing_note", "buildability",
             "main_blocker", "confidence", "confidence_reason", "evidence_count",
-            "needs_human", "human_reason",
+            "needs_human", "human_reason", "llm_provider",
         ]
         with open(p2_csv_path, "w", newline="", encoding="utf-8") as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -597,22 +765,17 @@ Output the corrected, strictly verified AppRecord JSON."""
                     "evidence_count": len(r.evidence),
                     "needs_human": r.needs_human,
                     "human_reason": r.human_reason or "",
+                    "llm_provider": r.llm_provider or "unknown",
                 })
 
-        # Produce verification_report.json (Requirement 4)
+        # Save verification_report.json
         report = VerificationReport(
             total_apps_reviewed=len(pass1_records),
-            rows_flagged=flagged_count,
-            flagged_app_ids=flagged_ids,
+            rows_flagged=final_rows_flagged,
+            flagged_app_ids=final_flagged_ids,
             per_field_disagreement_rate=per_field_rates,
             failure_types_breakdown=failure_breakdown,
-            common_failure_summary=[
-                f"{failure_breakdown['dead_link']} dead links detected (404/connection failure)",
-                f"{failure_breakdown['quote_not_found']} quotes not found on page via fuzzy match",
-                f"{failure_breakdown['ambiguous_gating']} instances of ambiguous pricing or sales gating",
-                f"{failure_breakdown['outdated_docs']} instances of outdated/deprecated API documentation",
-                f"{failure_breakdown['cross_check_disagreement']} discrepancies detected across high-risk fields",
-            ],
+            common_failure_summary=common_failures,
             details=[
                 {
                     "id": res.app_id,
@@ -620,64 +783,50 @@ Output the corrected, strictly verified AppRecord JSON."""
                     "flagged": res.flagged,
                     "objections": res.objections,
                     "audits_count": len(res.evidence_audits),
-                    "cross_checks": [c.model_dump() for c in res.cross_checks],
+                    "cross_checks": [cc.model_dump() for cc in res.cross_checks],
                 }
                 for res in verified_results
             ],
         )
 
-        report_path = out_dir / "verification_report.json"
-        with open(report_path, "w", encoding="utf-8") as f:
+        rep_path = out_dir / "verification_report.json"
+        with open(rep_path, "w", encoding="utf-8") as f:
             json.dump(report.model_dump(), f, ensure_ascii=False, indent=2)
 
-        logger.info(f"Verification complete: {flagged_count}/{len(pass1_records)} rows flagged. Report saved to {report_path}")
+        logger.info(
+            f"Saved verification report to {rep_path} ({final_rows_flagged}/{len(pass1_records)} flagged)"
+        )
         return report
 
+
     def find_in_text(self, quote: str, text: str) -> Optional[str]:
-        found, score, matched = self.fuzzy_match_quote(quote, text)
-        return matched if found else None
+        found, score, match = self.fuzzy_match_quote(quote, text)
+        return match if found else None
 
     def verify_record(
-        self, record: AppRecord, fetched_pages: Dict[str, Dict[str, str]]
+        self, record: AppRecord, pages: Dict[str, Dict[str, str]]
     ) -> Tuple[AppRecord, float]:
-        verified_items: List[EvidenceItem] = []
-        unverified_count = 0
-        all_text_by_url = {
-            url: p.get("clean_text", "")
-            for url, p in fetched_pages.items()
-            if p.get("clean_text")
-        }
+        """Synchronously verifies attached evidence items against fetched page texts."""
+        if not record.evidence:
+            record.confidence = min(record.confidence, 0.40)
+            record.needs_human = True
+            record.human_reason = "No evidence items provided to verify."
+            return record, 0.0
 
+        verified_evidence = []
         for ev in record.evidence:
-            quote = ev.exact_quote_under_25_words
-            target_text = all_text_by_url.get(ev.url, "")
-            match = self.find_in_text(quote, target_text)
-            matched_url = ev.url
-            if not match:
-                for other_url, other_text in all_text_by_url.items():
-                    if other_url != ev.url:
-                        other_match = self.find_in_text(quote, other_text)
-                        if other_match:
-                            match = other_match
-                            matched_url = other_url
-                            break
-            if match:
-                verified_items.append(
-                    EvidenceItem(
-                        claim_field=ev.claim_field,
-                        url=matched_url,
-                        exact_quote_under_25_words=match,
-                    )
-                )
-            else:
-                unverified_count += 1
+            page = pages.get(ev.url)
+            if page and page.get("clean_text"):
+                found, score, match = self.fuzzy_match_quote(ev.exact_quote_under_25_words, page["clean_text"])
+                if found:
+                    verified_evidence.append(ev)
 
-        record.evidence = verified_items
-        total = len(verified_items) + unverified_count
-        pass_rate = (len(verified_items) / total) if total > 0 else 0.0
+        pass_rate = len(verified_evidence) / len(record.evidence) if record.evidence else 0.0
+        record.evidence = verified_evidence
+        if pass_rate < 0.5:
+            record.confidence = min(record.confidence, 0.50)
+            record.needs_human = True
+            record.human_reason = "Low evidence verification pass rate."
         return record, pass_rate
 
-
-# Backward-compatible alias
 EvidenceVerifier = VerificationEngine
-

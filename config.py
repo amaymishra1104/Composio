@@ -16,6 +16,10 @@ class Settings(BaseSettings):
         default="auto",
         description="LLM provider: 'openai', 'gemini', 'groq', 'anthropic', 'ollama', 'heuristic', or 'auto'",
     )
+    ALLOW_HEURISTIC: bool = Field(
+        default=False,
+        description="Whether to permit offline heuristic mode when no LLM key or endpoint is found",
+    )
     OPENAI_API_KEY: Optional[str] = None
     GEMINI_API_KEY: Optional[str] = None
     GOOGLE_API_KEY: Optional[str] = None

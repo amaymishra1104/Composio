@@ -108,6 +108,19 @@ class AppRecord(BaseModel):
         default=None,
         description="Reason why human verification is required if needs_human is true",
     )
+    llm_provider: Optional[str] = Field(
+        default="unknown",
+        description="LLM provider used to generate or analyze this record (e.g. ollama, openai, gemini, groq, heuristic)",
+    )
+
+    @model_validator(mode="after")
+    def validate_consistency(self) -> "AppRecord":
+        # Rule: Avoid contradictions between self_serve and buildability
+        if self.self_serve in ["partner_gated", "no_public_api"] and self.buildability == "easy_win":
+            self.buildability = "needs_outreach"
+        elif self.self_serve in ["paid_plan_required", "approval_required"] and self.buildability == "easy_win":
+            self.buildability = "buildable_with_caveats"
+        return self
 
     @field_validator("auth_methods")
     @classmethod

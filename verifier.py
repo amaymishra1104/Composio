@@ -49,6 +49,11 @@ async def main():
         help="Concurrency limit for verification",
     )
     parser.add_argument(
+        "--allow-heuristic",
+        action="store_true",
+        help="Permit running in offline heuristic mode when no LLM key or endpoint is found",
+    )
+    parser.add_argument(
         "--verbose",
         "-v",
         action="store_true",
@@ -77,7 +82,10 @@ async def main():
         )
     )
 
-    engine = VerificationEngine(concurrency_limit=args.concurrency)
+    engine = VerificationEngine(
+        concurrency_limit=args.concurrency,
+        allow_heuristic=args.allow_heuristic,
+    )
     report = await engine.verify_pass1(
         pass1_path=args.pass1_path,
         apps_csv=args.apps_csv,

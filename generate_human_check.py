@@ -126,15 +126,7 @@ def generate_human_check(
         writer.writeheader()
         writer.writerows(sampled_rows)
 
-    # Also save copy in results/
-    results_copy = Path("results") / "human_check.csv"
-    results_copy.parent.mkdir(parents=True, exist_ok=True)
-    with open(results_copy, "w", newline="", encoding="utf-8") as f:
-        writer = csv.DictWriter(f, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(sampled_rows)
-
-    print(f"Generated stratified sample of {len(sampled_rows)} apps across {len(categories)} categories to {output_csv} and {results_copy}.")
+    print(f"Generated stratified sample of {len(sampled_rows)} apps across {len(categories)} categories to {output_csv}.")
 
 
 if __name__ == "__main__":

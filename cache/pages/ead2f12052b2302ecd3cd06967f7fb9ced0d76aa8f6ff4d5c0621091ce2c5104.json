@@ -1,9 +1,0 @@
-{
-  "url": "https://integrations.sh/twenty.com/twenty-graphql-api/",
-  "title": "Twenty GraphQL API — GraphQL",
-  "meta_description": "Twenty GraphQL API on twenty.com: GraphQL endpoint, auth methods, and setup.",
-  "clean_text": "https://{your-workspace-url}/graphql\nAuthorization: Bearer <credential>\nIn your Twenty workspace, go to APIs / Settings → API & Webhooks (the MCP guide also refers to Settings → MCP & APIs → API ) and click + Create key . Copy the key immediately because it is shown once. You can scope the key by assigning it to a role under Settings → Members → Roles → Assignment tab .\nTwenty uses per-workspace OAuth with dynamic client registration, so you do not create an app in a dashboard. Register your client programmatically against your workspace by POST ing to https://{your-workspace-url}/oauth/register as shown in the OAuth guide . Store the returned client_id and client_secret securely; they are then used for authorization-code or client-credentials token requests.\nPOST\nhttps://{your-workspace-url}/oauth/register\nclient_id\nclient_secret\nAuthorization: Bearer <credential>",
-  "status_code": 200,
-  "cached": false,
-  "fetched_at": "2026-11-23T20:00:48Z"
-}

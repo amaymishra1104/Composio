@@ -1,6 +1,6 @@
 # Composio App Research Agent (`app-research-agent`)
 
-[![Tests](https://img.shields.io/badge/tests-6%2F6%20passing-brightgreen)](tests/)
+[![Tests](https://img.shields.io/badge/tests-10%2F10%20passing-brightgreen)](tests/)
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue)](https://python.org)
 [![License](https://img.shields.io/badge/license-MIT-purple)]()
 
@@ -30,7 +30,7 @@ app-research-agent/
 ├── run.py                   # Main CLI entrypoint (--pass 1, --sample, --verify)
 ├── verifier.py              # Verification engine CLI (audits Pass 1 -> outputs Pass 2)
 ├── generate_human_check.py  # Stratified 20-app sampler generator
-├── human_check.csv          # Ground-truth review sheet for manual human evaluation
+├── human_check.csv          # Single ground-truth review sheet for manual human evaluation
 ├── accuracy.py              # Evaluates field-level accuracy (never fabricated)
 ├── requirements.txt         # Production dependencies
 ├── .env.example             # Documented template of environment variables
@@ -40,17 +40,16 @@ app-research-agent/
 │   ├── fetcher.py           # Async HTTP fetcher with rotating headers & retry backoff
 │   ├── search.py            # Search router: Composio SDK -> Tavily/Brave -> Plain DDG
 │   ├── extractor.py         # Grounded text analyzer & verbatim quote miner (<25 words)
-│   ├── llm.py               # Configurable LLM client (Gemini, OpenAI, Groq, Claude, Ollama, Heuristic)
+│   ├── llm.py               # Configurable LLM client (Groq, Gemini, OpenAI, Claude, Ollama, Heuristic)
 │   ├── verifier.py          # Evidence verification & cross-check engine
 │   └── pipeline.py          # Master coordinator with bounded concurrency
 ├── results/                 # Output deliverables
 │   ├── pass1.json / .csv    # Initial research findings (100 apps)
 │   ├── pass2.json / .csv    # Refined findings post-verification (100 apps)
 │   ├── verification_report.json # Audit findings, failure types & disagreement rates
-│   ├── human_check.csv      # Stratified human audit sample
 │   ├── accuracy.json        # Ground-truth accuracy metrics
 │   └── human_queue.csv      # Triage queue for unverified/low-confidence apps
-└── tests/                   # Pytest test suite (6 passing tests)
+└── tests/                   # Pytest test suite (10 passing tests)
 ```
 
 ---
@@ -89,27 +88,23 @@ Copy `.env.example` to `.env`:
 cp .env.example .env
 ```
 
-### Detailed Environment Variables
+### Strict LLM Requirement
+> **Strict LLM Mode & Refusal:** The pipeline requires an active LLM provider (Groq, Gemini, OpenAI, Anthropic, or local Ollama). It strictly refuses to run in offline heuristic mode unless `--allow-heuristic` is explicitly passed. Every output record logs the exact `llm_provider` used.
 
 | Variable | Description | Default / Options |
 |---|---|---|
-| `LLM_PROVIDER` | LLM routing mode | `auto`, `gemini`, `openai`, `groq`, `anthropic`, `ollama`, or `heuristic` |
-| `GEMINI_API_KEY` | Google Gemini API key | Optional (Recommended for high concurrency) |
+| `LLM_PROVIDER` | LLM routing mode | `groq`, `gemini`, `openai`, `anthropic`, `ollama` |
+| `GROQ_API_KEY` | Groq Cloud API key (Recommended: fast LPU inference) | Optional (`qwen/qwen3.8-27b`) |
+| `GEMINI_API_KEY` | Google Gemini API key | Optional (`gemini-2.5-flash`) |
 | `OPENAI_API_KEY` | OpenAI API key | Optional (`gpt-4o-mini` / `gpt-4o`) |
-| `GROQ_API_KEY` | Groq API key | Optional (`llama-3.3-70b-versatile`) |
 | `ANTHROPIC_API_KEY` | Anthropic Claude API key | Optional (`claude-3-5-sonnet`) |
 | `OPENAI_BASE_URL` | Custom OpenAI-compatible endpoint | Optional (e.g. `http://localhost:11434/v1` for Ollama) |
 | `MODEL_NAME` | Model override identifier | Optional |
+| `ALLOW_HEURISTIC` | Explicitly permit offline heuristic mode if no LLM | `false` |
 | `COMPOSIO_API_KEY` | Composio SDK API key for search/scraping toolkits | Optional (falls back to search router if omitted) |
-| `TAVILY_API_KEY` | Tavily search API key fallback | Optional |
 | `CONCURRENCY_LIMIT` | Maximum concurrent async HTTP / LLM requests | `5` |
-| `REQUEST_TIMEOUT` | HTTP request timeout in seconds | `20` |
-| `MAX_RETRIES` | Max exponential backoff retries per request | `3` |
 | `CACHE_DIR` | Directory for atomic disk caches | `cache` |
 | `RESULTS_DIR` | Output directory for pipeline deliverables | `results` |
-| `VERIFY_QUOTES` | Enforce fuzzy quote verification on extract | `true` |
-
-> **Note on Zero-API-Key Operation:** If no API keys are configured, the pipeline operates seamlessly using its internal heuristic DOM extraction engine, discovering endpoints and mining verbatim quotes directly from fetched live HTML.
 
 ---
 
@@ -158,7 +153,7 @@ python build_index_html.py
 ```bash
 pytest -v
 ```
-All 6 tests validate schema constraints, quote length (<25 words), verifier fuzzy matching, and strict accuracy calculation logic.
+All 10 tests validate OAuth2 enforcement for enterprise platforms, CLI tool classifications, schema constraints, quote length (<25 words), no-evidence verification rejection, verifier fuzzy matching, and strict accuracy calculation logic.
 
 ---
 

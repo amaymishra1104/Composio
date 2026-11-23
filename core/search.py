@@ -92,8 +92,23 @@ class SearchRouter:
                     self.cache.set_search(query, results)
                     return results
             except Exception as e:
-                logger.error(f"[SEARCH] All search providers failed for query '{query}': {e}")
+                logger.warning(f"[SEARCH] Plain DDG Lite search failed: {e}")
 
+            # 5. Fallback for MCP queries to GitHub API
+            if "mcp" in query.lower():
+                try:
+                    results = await self._search_github_mcp(query, max_results)
+                    if results:
+                        self.active_provider = "github_mcp_api"
+                        logger.info(
+                            f"[SEARCH] Provider: GITHUB_MCP_API | Query: '{query}' ({len(results)} results)"
+                        )
+                        self.cache.set_search(query, results)
+                        return results
+                except Exception as e:
+                    logger.debug(f"[SEARCH] GitHub MCP search failed: {e}")
+
+            logger.warning(f"[SEARCH] All search providers failed or returned 0 results for query '{query}'")
             return []
 
     async def _search_composio(
@@ -214,6 +229,32 @@ class SearchRouter:
                 return results
         return []
 
+    async def _search_github_mcp(
+        self, query: str, max_results: int
+    ) -> List[Dict[str, str]]:
+        clean_q = re.sub(r"[^\w\s-]", " ", query).strip()
+        url = f"https://api.github.com/search/repositories?q={urllib.parse.quote(clean_q)}&sort=stars&order=desc"
+        headers = {
+            "User-Agent": "app-research-agent/1.0",
+            "Accept": "application/vnd.github.v3+json",
+        }
+        async with httpx.AsyncClient(timeout=8) as client:
+            resp = await client.get(url, headers=headers)
+            if resp.status_code == 200:
+                data = resp.json()
+                items = data.get("items", [])
+                out = []
+                for item in items[:max_results]:
+                    out.append(
+                        {
+                            "title": item.get("full_name", ""),
+                            "url": item.get("html_url", ""),
+                            "snippet": item.get("description", "") or "",
+                        }
+                    )
+                return out
+        return []
+
     async def _search_ddg_lite(
         self, query: str, max_results: int
     ) -> List[Dict[str, str]]:
@@ -241,4 +282,30 @@ class SearchRouter:
                         if len(results) >= max_results:
                             break
                 return results
+        return []
+
+    async def _search_github_mcp(
+        self, query: str, max_results: int
+    ) -> List[Dict[str, str]]:
+        clean_q = re.sub(r"[^\w\s-]", " ", query).strip()
+        url = f"https://api.github.com/search/repositories?q={urllib.parse.quote(clean_q)}&sort=stars&order=desc"
+        headers = {
+            "User-Agent": "app-research-agent/1.0",
+            "Accept": "application/vnd.github.v3+json",
+        }
+        async with httpx.AsyncClient(timeout=8) as client:
+            resp = await client.get(url, headers=headers)
+            if resp.status_code == 200:
+                data = resp.json()
+                items = data.get("items", [])
+                out = []
+                for item in items[:max_results]:
+                    out.append(
+                        {
+                            "title": item.get("full_name", ""),
+                            "url": item.get("html_url", ""),
+                            "snippet": item.get("description", "") or "",
+                        }
+                    )
+                return out
         return []
