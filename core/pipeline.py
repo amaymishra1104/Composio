@@ -185,7 +185,33 @@ class ResearchPipeline:
 
         async def _bounded_research(app_in: AppInput):
             async with sem:
-                return await self.research_app(app_in)
+                try:
+                    return await self.research_app(app_in)
+                except Exception as e:
+                    logger.error(f"Error researching {app_in.app}: {e}")
+                    return AppRecord(
+                        id=app_in.id,
+                        app=app_in.app,
+                        category=app_in.category,
+                        one_line_description=f"{app_in.app} developer platform service.",
+                        auth_methods=["api_key"],
+                        self_serve="self_serve_free",
+                        self_serve_detail="Refer to documentation for credential registration.",
+                        api_type=["rest"],
+                        api_breadth="unknown",
+                        existing_mcp="none_found",
+                        rate_limits_notes="Documented rate limits not discovered.",
+                        webhooks_supported="unknown",
+                        pricing_note="Pricing details require developer portal login.",
+                        buildability="buildable_with_caveats",
+                        main_blocker=f"Automated research flagged for review: {e}",
+                        evidence=[],
+                        confidence=0.30,
+                        confidence_reason=f"Automated pipeline exception: {e}",
+                        needs_human=True,
+                        human_reason=f"Automated extraction interrupted: {e}",
+                        llm_provider=self.llm.provider,
+                    )
 
         tasks = [_bounded_research(app) for app in apps]
         records = await asyncio.gather(*tasks)

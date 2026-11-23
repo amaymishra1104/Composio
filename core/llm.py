@@ -467,19 +467,29 @@ OUTPUT JSON FORMAT EXAMPLE:
 
 Return ONLY valid JSON matching this exact structure."""
 
-        await self._pace_request()
-        response = await client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": user_msg},
-            ],
-            response_format={"type": "json_object"},
-            temperature=0.1,
-        )
-        content = response.choices[0].message.content
-        data = json.loads(content)
-        return self._sanitize_and_validate(data, app_input)
+        for attempt in range(5):
+            try:
+                await self._pace_request()
+                response = await client.chat.completions.create(
+                    model=model,
+                    messages=[
+                        {"role": "system", "content": SYSTEM_PROMPT},
+                        {"role": "user", "content": user_msg},
+                    ],
+                    response_format={"type": "json_object"},
+                    temperature=0.1,
+                )
+                content = response.choices[0].message.content
+                data = json.loads(content)
+                return self._sanitize_and_validate(data, app_input)
+            except Exception as e:
+                if "429" in str(e) or "rate_limit" in str(e).lower():
+                    wait_time = 2.5 * (attempt + 1)
+                    logger.warning(f"[GROQ RATE LIMIT] Backing off {wait_time}s on {app_input.app} (attempt {attempt+1}/5)...")
+                    await asyncio.sleep(wait_time)
+                else:
+                    raise
+        raise RuntimeError(f"Groq API exceeded max retries for {app_input.app} due to rate limiting.")
 
     async def _call_anthropic(self, app_input: AppInput, context: str) -> AppRecord:
         import anthropic
@@ -558,16 +568,26 @@ OUTPUT JSON FORMAT EXAMPLE:
 
 Return ONLY valid JSON matching this exact structure."""
 
-        await self._pace_request()
-        response = await client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": user_msg},
-            ],
-            response_format={"type": "json_object"},
-            temperature=0.1,
-        )
-        content = response.choices[0].message.content
-        data = json.loads(content)
-        return self._sanitize_and_validate(data, app_input)
+        for attempt in range(5):
+            try:
+                await self._pace_request()
+                response = await client.chat.completions.create(
+                    model=model,
+                    messages=[
+                        {"role": "system", "content": SYSTEM_PROMPT},
+                        {"role": "user", "content": user_msg},
+                    ],
+                    response_format={"type": "json_object"},
+                    temperature=0.1,
+                )
+                content = response.choices[0].message.content
+                data = json.loads(content)
+                return self._sanitize_and_validate(data, app_input)
+            except Exception as e:
+                if "429" in str(e) or "rate_limit" in str(e).lower():
+                    wait_time = 2.5 * (attempt + 1)
+                    logger.warning(f"[GROQ RATE LIMIT] Backing off {wait_time}s on {app_input.app} (attempt {attempt+1}/5)...")
+                    await asyncio.sleep(wait_time)
+                else:
+                    raise
+        raise RuntimeError(f"Groq API exceeded max retries for {app_input.app} due to rate limiting.")
