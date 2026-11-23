@@ -1,5 +1,5 @@
 {
-  "total_apps_reviewed": 3,
+  "total_apps_reviewed": 100,
   "rows_flagged": 0,
   "flagged_app_ids": [],
   "per_field_disagreement_rate": {
@@ -34,15 +34,15 @@
           "pass1_value": "self_serve_free",
           "cross_check_value": "self_serve_free",
           "disagreement": false,
-          "evidence_url": null,
+          "evidence_url": "https://developer.salesforce.com",
           "note": "Pass 1 and cross-check agree."
         },
         {
           "field": "existing_mcp",
           "pass1_value": "official",
-          "cross_check_value": "none_found",
+          "cross_check_value": "official",
           "disagreement": false,
-          "evidence_url": null,
+          "evidence_url": "https://developer.salesforce.com",
           "note": "Pass 1 and cross-check agree on MCP availability."
         },
         {
@@ -54,7 +54,118 @@
             "api_key"
           ],
           "disagreement": false,
-          "evidence_url": null,
+          "evidence_url": "https://developer.salesforce.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "app": "HubSpot",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developers.hubspot.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developers.hubspot.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developers.hubspot.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "app": "Pipedrive",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://www.pipedrive.com/",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://www.pipedrive.com/",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://www.pipedrive.com/",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "app": "Attio",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.attio.com/docs/overview",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://docs.attio.com/docs/overview",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.attio.com/docs/overview",
           "note": "Pass 1 and cross-check auth methods are consistent."
         }
       ]
@@ -64,7 +175,7 @@
       "app": "Twenty",
       "flagged": false,
       "objections": [],
-      "audits_count": 5,
+      "audits_count": 0,
       "cross_checks": [
         {
           "field": "self_serve",
@@ -85,14 +196,789 @@
         {
           "field": "auth_methods",
           "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "app": "Podio",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 3,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developers.podio.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developers.podio.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developers.podio.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 7,
+      "app": "Zoho CRM",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "paid_plan_required",
+          "cross_check_value": "paid_plan_required",
+          "disagreement": false,
+          "evidence_url": "https://www.zoho.com/en-in/crm/",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://www.zoho.com/en-in/crm/",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://www.zoho.com/en-in/crm/",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "app": "Close",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 5,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developer.close.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://developer.close.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
             "oauth2",
-            "api_key",
-            "bearer_token"
+            "api_key"
           ],
           "cross_check_value": [
             "oauth2",
-            "api_key",
-            "bearer_token"
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developer.close.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "app": "Copper",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developer.copper.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developer.copper.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developer.copper.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 10,
+      "app": "DealCloud",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 3,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://api.docs.dealcloud.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://api.docs.dealcloud.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://api.docs.dealcloud.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 11,
+      "app": "Zendesk",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://www.zendesk.com/in/#georedirect",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://www.zendesk.com/in/#georedirect",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://www.zendesk.com/in/#georedirect",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 12,
+      "app": "Intercom",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://www.intercom.com/",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://www.intercom.com/",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://www.intercom.com/",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 13,
+      "app": "Freshdesk",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 14,
+      "app": "Front",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 15,
+      "app": "Pylon",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.usepylon.com/pylon-docs",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://docs.usepylon.com/pylon-docs",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.usepylon.com/pylon-docs",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 16,
+      "app": "LiveAgent",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://www.liveagent.com/",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://www.liveagent.com/",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://www.liveagent.com/",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 17,
+      "app": "Plain",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 18,
+      "app": "Help Scout",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developer.helpscout.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developer.helpscout.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developer.helpscout.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 19,
+      "app": "Gorgias",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 20,
+      "app": "Gladly",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developer.gladly.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developer.gladly.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developer.gladly.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 21,
+      "app": "Slack",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 22,
+      "app": "Twilio",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://www.twilio.com/docs",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://www.twilio.com/docs",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://www.twilio.com/docs",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 23,
+      "app": "Zoho Cliq",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "partner_gated",
+          "cross_check_value": "partner_gated",
+          "disagreement": false,
+          "evidence_url": "https://www.zoho.com/developer/",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://www.zoho.com/developer/",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://www.zoho.com/developer/",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 24,
+      "app": "Lark (Larksuite)",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 25,
+      "app": "Pumble",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://pumble.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://pumble.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://pumble.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 26,
+      "app": "Discord",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
           ],
           "disagreement": false,
           "evidence_url": null,
@@ -105,7 +991,44 @@
       "app": "Telegram",
       "flagged": false,
       "objections": [],
-      "audits_count": 2,
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://core.telegram.org",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://core.telegram.org",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://core.telegram.org",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 28,
+      "app": "WhatsApp Business",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
       "cross_checks": [
         {
           "field": "self_serve",
@@ -133,6 +1056,2687 @@
           ],
           "disagreement": false,
           "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 29,
+      "app": "Aircall",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developer.aircall.io",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developer.aircall.io",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developer.aircall.io",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 30,
+      "app": "Vonage",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developer.vonage.com/en/home",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developer.vonage.com/en/home",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developer.vonage.com/en/home",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 31,
+      "app": "Google Ads",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developers.google.com/google-ads",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developers.google.com/google-ads",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developers.google.com/google-ads",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 32,
+      "app": "Meta Ads",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 33,
+      "app": "LinkedIn Ads",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 34,
+      "app": "GoHighLevel",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 35,
+      "app": "Mailchimp",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "partner_gated",
+          "cross_check_value": "partner_gated",
+          "disagreement": false,
+          "evidence_url": "https://mailchimp.com/developer",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://mailchimp.com/developer",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://mailchimp.com/developer",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 36,
+      "app": "Klaviyo",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developers.klaviyo.com/en",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://developers.klaviyo.com/en",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developers.klaviyo.com/en",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 37,
+      "app": "systeme.io",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 3,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developer.systeme.io/reference/api",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developer.systeme.io/reference/api",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developer.systeme.io/reference/api",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 38,
+      "app": "Pinterest",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 39,
+      "app": "Threads (Meta)",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 40,
+      "app": "SendGrid",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://www.twilio.com/docs/sendgrid",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://www.twilio.com/docs/sendgrid",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://www.twilio.com/docs/sendgrid",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 41,
+      "app": "Shopify",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://shopify.dev/docs",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://shopify.dev/docs",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://shopify.dev/docs",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 42,
+      "app": "WooCommerce",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 4,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://woocommerce.com/document/woocommerce-rest-api/",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://woocommerce.com/document/woocommerce-rest-api/",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "oauth2",
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://woocommerce.com/document/woocommerce-rest-api/",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 43,
+      "app": "BigCommerce",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 4,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.bigcommerce.com/developer/docs/overview/quick-start",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://docs.bigcommerce.com/developer/docs/overview/quick-start",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.bigcommerce.com/developer/docs/overview/quick-start",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 44,
+      "app": "Salesforce Commerce Cloud",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 45,
+      "app": "Magento (Adobe Commerce)",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 46,
+      "app": "Squarespace",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developers.squarespace.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developers.squarespace.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developers.squarespace.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 47,
+      "app": "Ecwid",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.ecwid.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://docs.ecwid.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.ecwid.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 48,
+      "app": "Gumroad",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 49,
+      "app": "Amazon Selling Partner",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developer-docs.amazon/sp-api",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developer-docs.amazon/sp-api",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developer-docs.amazon/sp-api",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 50,
+      "app": "fanbasis",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 51,
+      "app": "DataForSEO",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.dataforseo.com/v3/",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://docs.dataforseo.com/v3/",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.dataforseo.com/v3/",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 52,
+      "app": "SE Ranking",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 53,
+      "app": "Ahrefs",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 4,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.ahrefs.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://docs.ahrefs.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "oauth2",
+            "api_key"
+          ],
+          "cross_check_value": [
+            "oauth2",
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.ahrefs.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 54,
+      "app": "MrScraper",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 3,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.mrscraper.com/docs/getting-started/overview",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://docs.mrscraper.com/docs/getting-started/overview",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.mrscraper.com/docs/getting-started/overview",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 55,
+      "app": "Apify",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 56,
+      "app": "Firecrawl",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 6,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.firecrawl.dev/introduction",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "community",
+          "disagreement": false,
+          "evidence_url": "https://docs.firecrawl.dev/introduction",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key",
+            "bearer_token"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.firecrawl.dev/introduction",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 57,
+      "app": "Bright Data",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 5,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://brightdata.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://brightdata.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key",
+            "bearer_token"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://brightdata.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 58,
+      "app": "Sherlock",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 3,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.github.com/en",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://docs.github.com/en",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.github.com/en",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 59,
+      "app": "Waterfall.io",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 3,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.waterfall.io/v1/introduction",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://docs.waterfall.io/v1/introduction",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.waterfall.io/v1/introduction",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 60,
+      "app": "Clay",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 61,
+      "app": "GitHub",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.github.com/en/rest",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://docs.github.com/en/rest",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.github.com/en/rest",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 62,
+      "app": "Vercel",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 6,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://vercel.com/docs",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://vercel.com/docs",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key",
+            "bearer_token"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://vercel.com/docs",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 63,
+      "app": "Netlify",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 6,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.netlify.com/api-and-cli-guides/api-guides/get-started-with-api/",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://docs.netlify.com/api-and-cli-guides/api-guides/get-started-with-api/",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "oauth2",
+            "api_key",
+            "bearer_token"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.netlify.com/api-and-cli-guides/api-guides/get-started-with-api/",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 64,
+      "app": "Cloudflare",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 6,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developers.cloudflare.com/api/",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://developers.cloudflare.com/api/",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key",
+            "basic"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developers.cloudflare.com/api/",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 65,
+      "app": "Supabase",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://supabase.com/docs",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://supabase.com/docs",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://supabase.com/docs",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 66,
+      "app": "Neo4j",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 67,
+      "app": "Snowflake",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 68,
+      "app": "MongoDB Atlas",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://www.mongodb.com/docs/atlas/api/",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://www.mongodb.com/docs/atlas/api/",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://www.mongodb.com/docs/atlas/api/",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 69,
+      "app": "Datadog",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 5,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.datadoghq.com/api",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://docs.datadoghq.com/api",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "oauth2",
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.datadoghq.com/api",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 70,
+      "app": "Sentry",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.sentry.io/api/",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://docs.sentry.io/api/",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.sentry.io/api/",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 71,
+      "app": "Notion",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developers.notion.com/guides/notion-api/quick-start",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developers.notion.com/guides/notion-api/quick-start",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key",
+            "bearer_token"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developers.notion.com/guides/notion-api/quick-start",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 72,
+      "app": "Airtable",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://airtable.com/developers/agents",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://airtable.com/developers/agents",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://airtable.com/developers/agents",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 73,
+      "app": "Linear",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 3,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://linear.app/developers",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://linear.app/developers",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "oauth2",
+            "api_key"
+          ],
+          "cross_check_value": [
+            "oauth2",
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://linear.app/developers",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 74,
+      "app": "Jira",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 75,
+      "app": "Asana",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developers.asana.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developers.asana.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developers.asana.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 76,
+      "app": "Monday.com",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 3,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developer.monday.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developer.monday.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "oauth2"
+          ],
+          "cross_check_value": [
+            "oauth2"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developer.monday.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 77,
+      "app": "ClickUp",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developer.clickup.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://developer.clickup.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developer.clickup.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 78,
+      "app": "Coda",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 4,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.superhuman.com/developers/apis/v1",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://docs.superhuman.com/developers/apis/v1",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.superhuman.com/developers/apis/v1",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 79,
+      "app": "Smartsheet",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developers.smartsheet.com/",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://developers.smartsheet.com/",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developers.smartsheet.com/",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 80,
+      "app": "Harvest",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://id.getharvest.com/harvest/sign_in?account_id=1913509&signature=IjE5MTM1MDki--d175bdcd1f2a375c4d32cd544be4fab33720dc9e",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://id.getharvest.com/harvest/sign_in?account_id=1913509&signature=IjE5MTM1MDki--d175bdcd1f2a375c4d32cd544be4fab33720dc9e",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://id.getharvest.com/harvest/sign_in?account_id=1913509&signature=IjE5MTM1MDki--d175bdcd1f2a375c4d32cd544be4fab33720dc9e",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 81,
+      "app": "Stripe",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 3,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.stripe.com/api",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://docs.stripe.com/api",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key",
+            "bearer_token",
+            "basic"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.stripe.com/api",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 82,
+      "app": "Plaid",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 83,
+      "app": "Binance",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 84,
+      "app": "Paygent Connect",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 85,
+      "app": "iPayX",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 86,
+      "app": "QuickBooks",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 87,
+      "app": "Xero",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developer.xero.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://developer.xero.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "oauth2"
+          ],
+          "cross_check_value": [
+            "oauth2"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developer.xero.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 88,
+      "app": "Brex",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developer.brex.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developer.brex.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developer.brex.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 89,
+      "app": "Ramp",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 90,
+      "app": "PitchBook",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 91,
+      "app": "NotebookLM",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "paid_plan_required",
+          "cross_check_value": "paid_plan_required",
+          "disagreement": false,
+          "evidence_url": "https://cloud.google.com/ai/gemini",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://cloud.google.com/ai/gemini",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://cloud.google.com/ai/gemini",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 92,
+      "app": "Otter AI",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 93,
+      "app": "Fathom",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 94,
+      "app": "Consensus",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 95,
+      "app": "Reducto",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 1,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://reducto.ai",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://reducto.ai",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://reducto.ai",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 96,
+      "app": "Devin",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 0,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 97,
+      "app": "higgsfield",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://higgsfield.ai/cli",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://higgsfield.ai/cli",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://higgsfield.ai/cli",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 98,
+      "app": "Mermaid CLI",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 3,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://docs.github.com/en",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://docs.github.com/en",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://docs.github.com/en",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 99,
+      "app": "YouTube Transcript",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 5,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://transcriptapi.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "official",
+          "disagreement": false,
+          "evidence_url": "https://transcriptapi.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key",
+            "bearer_token"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://transcriptapi.com",
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 100,
+      "app": "Grain",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 3,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": "https://developers.grain.com",
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": "https://developers.grain.com",
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key",
+            "bearer_token"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": "https://developers.grain.com",
           "note": "Pass 1 and cross-check auth methods are consistent."
         }
       ]

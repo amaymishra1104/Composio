@@ -57,6 +57,7 @@ class ResearchPipeline:
 
         # 2. Extract domain or domain/path (ignoring remarks in parentheses)
         clean = re.sub(r"\(.*?\)", "", hint).strip()
+        # Find any domain-like string (e.g. shopify.dev, api-docs.ecwid.com, etc.)
         domain_match = re.search(
             r"([a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?:/[^\s)]*)?)",
             clean,
@@ -69,7 +70,7 @@ class ResearchPipeline:
         return urls
 
     async def discover_urls_for_app(self, app_input: AppInput) -> List[str]:
-        """Discovers developer docs, auth pages, and pricing pages using search & domain patterns (Rule 1)."""
+        """Discovers developer docs, auth pages, and pricing pages using domain patterns & search (Rule 1)."""
         app = app_input.app
         candidate_urls: List[str] = []
 
@@ -83,80 +84,51 @@ class ResearchPipeline:
         target_domain = None
         if hint_urls:
             parsed = urllib.parse.urlparse(hint_urls[0])
-            target_domain = parsed.netloc or parsed.path.split("/")[0]
+            netloc = parsed.netloc or parsed.path.split("/")[0]
+            # Strip port or subpaths
+            target_domain = netloc.split(":")[0].lower()
 
         if target_domain:
-            # Special case for telegram: core.telegram.org/bots/api
-            if "telegram" in target_domain:
-                candidate_urls.extend(
-                    [
-                        "https://core.telegram.org/bots/api",
-                        "https://core.telegram.org/api",
-                    ]
-                )
-            elif "twenty" in target_domain:
-                candidate_urls.extend(
-                    [
-                        "https://docs.twenty.com/developers/extend/oauth",
-                        "https://docs.twenty.com/developers/extend/api",
-                    ]
-                )
-            elif "salesforce" in target_domain:
-                candidate_urls.extend(
-                    [
-                        "https://developer.salesforce.com/docs/apis",
-                        "https://developer.salesforce.com/docs/atlas.en-us.api_rest.meta/api_rest/intro_what_is_rest_api.htm",
-                    ]
-                )
-            else:
-                # Standard developer docs candidate subdomains & paths
-                candidate_urls.extend(
-                    [
-                        f"https://developer.{target_domain}",
-                        f"https://docs.{target_domain}",
-                        f"https://{target_domain}/docs",
-                        f"https://{target_domain}/api",
-                    ]
-                )
+            # Common developer documentation subdomains and endpoints
+            derived = [
+                f"https://developers.{target_domain}",
+                f"https://developer.{target_domain}",
+                f"https://docs.{target_domain}",
+                f"https://{target_domain}/docs",
+                f"https://{target_domain}/api",
+            ]
+            for ep in derived:
+                if ep not in candidate_urls:
+                    candidate_urls.append(ep)
 
-        # 3. Formulate search queries for web search (Rule 1)
-        queries = [
-            f"{app} official developer api documentation",
-            f"{app} api authentication oauth2 api key docs",
-            f"{app} model context protocol mcp server",
-        ]
+        # 3. Only run search if fewer than 2 candidate URLs exist
+        if len(candidate_urls) < 3:
+            queries = [
+                f"{app} official developer api documentation",
+                f"{app} api authentication oauth2 api key docs",
+            ]
+            search_tasks = [
+                self.search_router.search(q, max_results=2, bypass_cache=self.bypass_cache)
+                for q in queries
+            ]
+            search_results_nested = await asyncio.gather(*search_tasks)
 
-        search_tasks = [
-            self.search_router.search(q, max_results=3, bypass_cache=self.bypass_cache)
-            for q in queries
-        ]
-        search_results_nested = await asyncio.gather(*search_tasks)
+            for result_list in search_results_nested:
+                for item in result_list:
+                    url = item.get("url", "")
+                    if url and url.startswith("http"):
+                        if any(sub in url for sub in ["capterra.com", "g2.com", "wikipedia.org"]):
+                            continue
+                        if url not in candidate_urls:
+                            candidate_urls.append(url)
 
-        for result_list in search_results_nested:
-            for item in result_list:
-                url = item.get("url", "")
-                if url and url.startswith("http"):
-                    # Exclude low-value review/spam sites
-                    if any(
-                        sub in url
-                        for sub in [
-                            "capterra.com",
-                            "g2.com",
-                            "wikipedia.org",
-                            "trustpilot.com",
-                        ]
-                    ):
-                        continue
-                    if url not in candidate_urls:
-                        candidate_urls.append(url)
-
-        # Deduplicate preserving order
+        # Filter out binary assets
         unique = []
         for u in candidate_urls:
-            if u not in unique and not any(u.endswith(ext) for ext in [".png", ".jpg", ".zip", ".exe"]):
+            if u not in unique and not any(u.endswith(ext) for ext in [".png", ".jpg", ".zip", ".exe", ".pdf"]):
                 unique.append(u)
 
-        return unique[:5]
+        return unique[:4]
 
     async def research_app(self, app_input: AppInput) -> AppRecord:
         logger.info(

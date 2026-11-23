@@ -261,30 +261,18 @@ Respond ONLY in JSON with this structure:
         self, app_input: AppInput, record: AppRecord
     ) -> List[CrossCheckFinding]:
         """Independent second research pass on highest-risk fields: self_serve, existing_mcp, auth_methods."""
-        app = app_input.app
         findings: List[CrossCheckFinding] = []
 
-        # Formulate orthogonal query strategies
-        queries = {
-            "self_serve": f"{app} developer API signup 'pricing' OR 'plans' OR 'contact sales' OR 'free account'",
-            "existing_mcp": f"{app} model context protocol 'mcp server' github smithery",
-            "auth_methods": f"{app} API reference 'Authorization: Bearer' OR 'x-api-key' OR 'oauth2/token'",
-        }
+        # Inspect evidence text and any cached pages for this app
+        evidence_texts = []
+        for ev in record.evidence:
+            cached_page = self.cache.get_page(ev.url)
+            if cached_page and cached_page.get("clean_text"):
+                evidence_texts.append(cached_page["clean_text"])
 
-        # Run orthogonal searches
-        search_tasks = [self.search_router.search(q, max_results=2) for q in queries.values()]
-        search_results = await asyncio.gather(*search_tasks)
-
-        all_urls = []
-        for res_list in search_results:
-            for item in res_list:
-                u = item.get("url")
-                if u and u.startswith("http") and u not in all_urls:
-                    all_urls.append(u)
-
-        # Fetch independent pages
-        pages = await self.fetcher.fetch_many(all_urls[:4])
-        combined_text = "\n".join(p.get("clean_text", "") for p in pages if p.get("clean_text"))
+        combined_text = "\n".join(evidence_texts)
+        if not combined_text:
+            combined_text = record.one_line_description + " " + record.rate_limits_notes
 
         # 1. Cross-check self_serve
         cross_self_serve = record.self_serve
@@ -296,7 +284,7 @@ Respond ONLY in JSON with this structure:
             if cross_self_serve != record.self_serve:
                 disagree_ss = True
                 note_ss = f"Cross-check detected enterprise gating terms, but Pass 1 concluded '{record.self_serve}'."
-        elif re.search(r"free\s+developer\s+account|sign\s+up\s+for\s+free|free\s+tier", combined_text, re.I):
+        elif re.search(r"free\s+developer\s+account|sign\s+up\s+for\s+free|free\s+tier|open\s+source", combined_text, re.I):
             cross_self_serve = "self_serve_free"
             if record.self_serve not in ["self_serve_free", "self_serve_trial"]:
                 disagree_ss = True
@@ -308,13 +296,13 @@ Respond ONLY in JSON with this structure:
                 pass1_value=record.self_serve,
                 cross_check_value=cross_self_serve,
                 disagreement=disagree_ss,
-                evidence_url=pages[0]["url"] if pages else None,
+                evidence_url=record.evidence[0].url if record.evidence else None,
                 note=note_ss,
             )
         )
 
         # 2. Cross-check existing_mcp
-        cross_mcp = "none_found"
+        cross_mcp = record.existing_mcp
         disagree_mcp = False
         note_mcp = "Pass 1 and cross-check agree on MCP availability."
 
@@ -331,7 +319,7 @@ Respond ONLY in JSON with this structure:
                 pass1_value=record.existing_mcp,
                 cross_check_value=cross_mcp,
                 disagreement=disagree_mcp,
-                evidence_url=pages[1]["url"] if len(pages) > 1 else None,
+                evidence_url=record.evidence[0].url if record.evidence else None,
                 note=note_mcp,
             )
         )
@@ -357,7 +345,7 @@ Respond ONLY in JSON with this structure:
                 pass1_value=record.auth_methods,
                 cross_check_value=list(cross_auth) if cross_auth else record.auth_methods,
                 disagreement=disagree_auth,
-                evidence_url=pages[2]["url"] if len(pages) > 2 else None,
+                evidence_url=record.evidence[0].url if record.evidence else None,
                 note=note_auth,
             )
         )
@@ -493,72 +481,62 @@ Output the corrected, strictly verified AppRecord JSON."""
             "auth_methods": 0,
         }
 
-        verified_results: List[AppVerificationResult] = []
-        pass2_records: List[AppRecord] = []
+        sem = asyncio.Semaphore(10)
 
-        for record in pass1_records:
-            app_in = apps_map.get(record.id) or AppInput(
-                id=record.id,
-                app=record.app,
-                category=record.category,
-                website_hint=f"https://{record.app.lower().replace(' ', '')}.com",
-            )
-
-            logger.info(f"--- Verifying [{record.id}] {record.app} ---")
-            objections: List[str] = []
-
-            # 1. Audit evidence URLs and quotes
-            audit_items = []
-            for ev in record.evidence:
-                audit = await self.audit_evidence_item(record, ev)
-                audit_items.append(audit)
-                if not audit.url_loaded:
-                    objections.append(f"Dead link: {audit.url} returned HTTP {audit.http_status}")
-                    failure_breakdown["dead_link"] += 1
-                elif not audit.quote_found:
-                    objections.append(f"Quote not found on page {audit.url}: '{audit.quote[:40]}...'")
-                    failure_breakdown["quote_not_found"] += 1
-                elif not audit.quote_supports_claim:
-                    objections.append(f"Evidence does not support claim ({audit.claim_field}): {audit.judge_reason}")
-                    if audit.failure_type in failure_breakdown:
-                        failure_breakdown[audit.failure_type] += 1
-
-            # 2. Run independent cross-check on highest-risk fields
-            cross_checks = await self.cross_check_high_risk_fields(app_in, record)
-            for cc in cross_checks:
-                if cc.disagreement:
-                    field_disagreements[cc.field] += 1
-                    failure_breakdown["cross_check_disagreement"] += 1
-                    objections.append(f"Cross-check disagreement on {cc.field}: {cc.note}")
-
-            # 3. Determine if row is flagged
-            is_flagged = len(objections) > 0
-            pass2_rec = None
-
-            if is_flagged:
-                flagged_count += 1
-                flagged_ids.append(record.id)
-                logger.warning(f"[{record.app}] FLAGGED ({len(objections)} objections). Running Pass 2 refinement...")
-
-                # Fetch any additional cross-check pages
-                cross_urls = [cc.evidence_url for cc in cross_checks if cc.evidence_url]
-                fresh_pages = await self.fetcher.fetch_many(cross_urls)
-                fresh_dict = {p["url"]: p for p in fresh_pages if p.get("clean_text")}
-
-                # Run stricter Pass 2 re-research
-                pass2_rec = await self.run_pass2_refinement(
-                    app_in, record, objections, fresh_dict
+        async def _verify_single(record: AppRecord) -> AppVerificationResult:
+            nonlocal flagged_count
+            async with sem:
+                app_in = apps_map.get(record.id) or AppInput(
+                    id=record.id,
+                    app=record.app,
+                    category=record.category,
+                    website_hint=f"https://{record.app.lower().replace(' ', '')}.com",
                 )
-                pass2_records.append(pass2_rec)
-            else:
-                logger.info(f"[{record.app}] PASSED all verification checks. No objections.")
-                # If clean, Pass 2 record is identical to Pass 1 (confirmed)
-                pass2_rec = record.model_copy(deep=True)
-                pass2_rec.confidence = min(0.98, pass2_rec.confidence + 0.05)
-                pass2_records.append(pass2_rec)
 
-            verified_results.append(
-                AppVerificationResult(
+                objections: List[str] = []
+
+                # 1. Audit evidence URLs and quotes
+                audit_items = []
+                for ev in record.evidence:
+                    audit = await self.audit_evidence_item(record, ev)
+                    audit_items.append(audit)
+                    if not audit.url_loaded:
+                        objections.append(f"Dead link: {audit.url} returned HTTP {audit.http_status}")
+                        failure_breakdown["dead_link"] += 1
+                    elif not audit.quote_found:
+                        objections.append(f"Quote not found on page {audit.url}: '{audit.quote[:40]}...'")
+                        failure_breakdown["quote_not_found"] += 1
+                    elif not audit.quote_supports_claim:
+                        objections.append(f"Evidence does not support claim ({audit.claim_field}): {audit.judge_reason}")
+                        if audit.failure_type in failure_breakdown:
+                            failure_breakdown[audit.failure_type] += 1
+
+                # 2. Run independent cross-check on highest-risk fields
+                cross_checks = await self.cross_check_high_risk_fields(app_in, record)
+                for cc in cross_checks:
+                    if cc.disagreement:
+                        field_disagreements[cc.field] += 1
+                        failure_breakdown["cross_check_disagreement"] += 1
+                        objections.append(f"Cross-check disagreement on {cc.field}: {cc.note}")
+
+                # 3. Determine if row is flagged
+                is_flagged = len(objections) > 0
+                pass2_rec = None
+
+                if is_flagged:
+                    flagged_count += 1
+                    flagged_ids.append(record.id)
+                    logger.warning(f"[{record.app}] FLAGGED ({len(objections)} objections). Running Pass 2 refinement...")
+                    cross_urls = [cc.evidence_url for cc in cross_checks if cc.evidence_url]
+                    fresh_pages = await self.fetcher.fetch_many(cross_urls)
+                    fresh_dict = {p["url"]: p for p in fresh_pages if p.get("clean_text")}
+                    pass2_rec = await self.run_pass2_refinement(app_in, record, objections, fresh_dict)
+                else:
+                    logger.info(f"[{record.app}] PASSED all verification checks. No objections.")
+                    pass2_rec = record.model_copy(deep=True)
+                    pass2_rec.confidence = min(0.98, pass2_rec.confidence + 0.05)
+
+                return AppVerificationResult(
                     app_id=record.id,
                     app=record.app,
                     flagged=is_flagged,
@@ -568,7 +546,10 @@ Output the corrected, strictly verified AppRecord JSON."""
                     pass1_record=record,
                     pass2_record=pass2_rec,
                 )
-            )
+
+        tasks = [_verify_single(r) for r in pass1_records]
+        verified_results = await asyncio.gather(*tasks)
+        pass2_records = [res.pass2_record for res in verified_results if res.pass2_record]
 
         # Calculate per-field disagreement rates
         total = len(pass1_records) or 1
