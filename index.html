@@ -736,13 +736,13 @@
 
       <div class="headline-card">
         <div class="stat-label">Pass 1 Accuracy</div>
-        <div class="stat-number"><span class="badge warning">not yet measured</span></div>
+        <div class="stat-number">20.0%</div>
         <div class="stat-detail">Overall field accuracy across sampled apps on initial research pass.</div>
       </div>
 
       <div class="headline-card">
         <div class="stat-label">Pass 2 Accuracy</div>
-        <div class="stat-number"><span class="badge warning">not yet measured</span></div>
+        <div class="stat-number">25.0%</div>
         <div class="stat-detail">Overall field accuracy after independent cross-check and verifier reconciliation.</div>
       </div>
 
@@ -768,32 +768,32 @@
         <tbody>
           <tr>
           <td><strong>Authentication Methods</strong></td>
-          <td><span class="badge warning">not yet measured</span></td>
-          <td><span class="badge warning">not yet measured</span></td>
+          <td>45.0%</td>
+          <td>45.0%</td>
           <td style="color:var(--text-muted); font-size:0.83rem;">Docs auth page inspection & token discovery</td>
         </tr>
 <tr>
           <td><strong>Self-Serve Status</strong></td>
-          <td><span class="badge warning">not yet measured</span></td>
-          <td><span class="badge warning">not yet measured</span></td>
+          <td>75.0%</td>
+          <td>75.0%</td>
           <td style="color:var(--text-muted); font-size:0.83rem;">Pricing tier & developer signup portal verification</td>
         </tr>
 <tr>
           <td><strong>API Architecture</strong></td>
-          <td><span class="badge warning">not yet measured</span></td>
-          <td><span class="badge warning">not yet measured</span></td>
+          <td>95.0%</td>
+          <td>95.0%</td>
           <td style="color:var(--text-muted); font-size:0.83rem;">REST, GraphQL, SOAP, or CLI utility classification</td>
         </tr>
 <tr>
           <td><strong>Existing MCP Server</strong></td>
-          <td><span class="badge warning">not yet measured</span></td>
-          <td><span class="badge warning">not yet measured</span></td>
+          <td>50.0%</td>
+          <td>50.0%</td>
           <td style="color:var(--text-muted); font-size:0.83rem;">GitHub API repo & registry cross-check</td>
         </tr>
 <tr>
           <td><strong>Buildability Feasibility</strong></td>
-          <td><span class="badge warning">not yet measured</span></td>
-          <td><span class="badge warning">not yet measured</span></td>
+          <td>80.0%</td>
+          <td>80.0%</td>
           <td style="color:var(--text-muted); font-size:0.83rem;">Composite feasibility rating based on access gates</td>
         </tr>
         </tbody>
@@ -819,145 +819,145 @@
             <tr>
           <td><strong>Salesforce</strong><br><small style="color:var(--text-muted);">CRM and Sales</small></td>
           <td><code>auth: api_key</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>Salesforce uses OAuth 2.0 (Connected Apps / External Client Apps) rather than static api_key.</td>
           <td><a href="https://developer.salesforce.com" target="_blank" rel="noopener noreferrer">Source Docs ↗</a><br><small style="color:var(--text-muted); font-style:italic;">"Salesforce REST API..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>HubSpot</strong><br><small style="color:var(--text-muted);">CRM and Sales</small></td>
           <td><code>auth: api_key</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>HubSpot uses OAuth 2.0 and Private App bearer tokens (legacy hapikey deprecated) and offers an official remote MCP server at mcp.hubspot.com.</td>
           <td><a href="https://developers.hubspot.com" target="_blank" rel="noopener noreferrer">Source Docs ↗</a><br><small style="color:var(--text-muted); font-style:italic;">"Use workflows, webhooks, and custom actions to execute the next step t..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>Front</strong><br><small style="color:var(--text-muted);">Support and Helpdesk</small></td>
           <td><code>auth: api_key</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>No evidence URL retrieved; Front uses OAuth 2.0 for public apps and Bearer tokens for private APIs and has an official MCP server.</td>
           <td><span style="color:var(--text-muted);">None</span><br><small style="color:var(--text-muted); font-style:italic;">"..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>Pylon</strong><br><small style="color:var(--text-muted);">Support and Helpdesk</small></td>
           <td><code>auth: api_key</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>Missed official Pylon MCP server at mcp.usepylon.com (launched March 2026); REST API uses admin-generated Bearer API tokens.</td>
           <td><a href="https://docs.usepylon.com/pylon-docs" target="_blank" rel="noopener noreferrer">Source Docs ↗</a><br><small style="color:var(--text-muted); font-style:italic;">"Apps Embedded Iframes Webhooks Custom Apps Embedded Iframes Webhooks P..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>Zoho Cliq</strong><br><small style="color:var(--text-muted);">Communications and Messaging</small></td>
           <td><code>auth: api_key</code><br><code>access: partner_gated</code></td>
-          <td>Pending manual human grading</td>
+          <td>False positive gate: evidence cited Zoho Marketplace partner page instead of Zoho API Console; Cliq uses OAuth 2.0 and is self-serve free for internal/dev use.</td>
           <td><a href="https://www.zoho.com/developer/" target="_blank" rel="noopener noreferrer">Source Docs ↗</a><br><small style="color:var(--text-muted); font-style:italic;">"Join our Marketplace partner program to list and sell your solutions o..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>Lark (Larksuite)</strong><br><small style="color:var(--text-muted);">Communications and Messaging</small></td>
           <td><code>auth: api_key</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>No evidence URL retrieved; Lark Open Platform uses OAuth 2.0 (app_access_token / user_access_token) and provides an official OpenAPI MCP tool.</td>
           <td><span style="color:var(--text-muted);">None</span><br><small style="color:var(--text-muted); font-style:italic;">"..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>Meta Ads</strong><br><small style="color:var(--text-muted);">Marketing, Ads, Email and Social</small></td>
           <td><code>auth: api_key</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>No evidence URL retrieved; Meta Marketing API uses OAuth 2.0, requires Business Verification + App Review for live ad accounts, and has an official Meta Ads MCP Server.</td>
           <td><span style="color:var(--text-muted);">None</span><br><small style="color:var(--text-muted); font-style:italic;">"..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>Threads (Meta)</strong><br><small style="color:var(--text-muted);">Marketing, Ads, Email and Social</small></td>
           <td><code>auth: api_key</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>No evidence URL retrieved; Threads API authenticates via OAuth 2.0 user access tokens (self-serve via Meta App Dashboard).</td>
           <td><span style="color:var(--text-muted);">None</span><br><small style="color:var(--text-muted); font-style:italic;">"..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>WooCommerce</strong><br><small style="color:var(--text-muted);">Ecommerce</small></td>
           <td><code>auth: oauth2; api_key</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>WooCommerce REST API uses Consumer Key/Secret over HTTP Basic Auth (HTTPS) or OAuth 1.0a—not OAuth 2.0.</td>
           <td><a href="https://woocommerce.com/document/woocommerce-rest-api/" target="_blank" rel="noopener noreferrer">Source Docs ↗</a><br><small style="color:var(--text-muted); font-style:italic;">"You can create keys with different permission levels depending on what..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>Ecwid</strong><br><small style="color:var(--text-muted);">Ecommerce</small></td>
           <td><code>auth: api_key</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>Custom apps get a self-serve secret Bearer access token directly (OAuth 2.0 is also supported for public marketplace apps).</td>
           <td><a href="https://docs.ecwid.com" target="_blank" rel="noopener noreferrer">Source Docs ↗</a><br><small style="color:var(--text-muted); font-style:italic;">"Webhooks
 Automate your business logic
 Automation examples
 Check out co..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge easy_win">Hit (Correct)</span></td>
         </tr>
 <tr>
           <td><strong>DataForSEO</strong><br><small style="color:var(--text-muted);">Data, SEO and Scraping</small></td>
           <td><code>auth: api_key</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>Uses HTTP Basic Auth (login:password) rather than a single API key, requires a $50 minimum deposit after a $1 trial, and has an official MCP server at mcp.dataforseo.com/v3/mcp.</td>
           <td><a href="https://docs.dataforseo.com/v3/" target="_blank" rel="noopener noreferrer">Source Docs ↗</a><br><small style="color:var(--text-muted); font-style:italic;">"one request • Webhooks & callbacks • SERP API best practices • Keyword..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>Clay</strong><br><small style="color:var(--text-muted);">Data, SEO and Scraping</small></td>
           <td><code>auth: api_key</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>No evidence URL retrieved; Clay Public API (clay-api-key) and HTTP API/MCP connectors require paid plans (Growth $495/mo or Enterprise), not free tier.</td>
           <td><span style="color:var(--text-muted);">None</span><br><small style="color:var(--text-muted); font-style:italic;">"..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>Vercel</strong><br><small style="color:var(--text-muted);">Developer, Infra and Data platforms</small></td>
           <td><code>auth: api_key; bearer_token</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>Accurate across all fields; Vercel supports self-serve Bearer tokens/API keys, broad REST API, and an official MCP server.</td>
           <td><a href="https://vercel.com/docs" target="_blank" rel="noopener noreferrer">Source Docs ↗</a><br><small style="color:var(--text-muted); font-style:italic;">"setup # create an api key and export the key it prints vercel ai-gatew..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge easy_win">Hit (Correct)</span></td>
         </tr>
 <tr>
           <td><strong>Cloudflare</strong><br><small style="color:var(--text-muted);">Developer, Infra and Data platforms</small></td>
           <td><code>auth: api_key; basic</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>Cloudflare's primary management API is a broad REST API (v4) in addition to GraphQL Analytics; listing only graphql understates API surface.</td>
           <td><a href="https://developers.cloudflare.com/api/" target="_blank" rel="noopener noreferrer">Source Docs ↗</a><br><small style="color:var(--text-muted); font-style:italic;">"requires a Global API key and your registered email address...."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>Jira</strong><br><small style="color:var(--text-muted);">Productivity and Project Management</small></td>
           <td><code>auth: api_key</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>No evidence URL retrieved; Jira Cloud uses OAuth 2.0 (3LO) or email+API token Basic Auth, and Atlassian provides an official remote MCP server at mcp.atlassian.com/v2/mcp.</td>
           <td><span style="color:var(--text-muted);">None</span><br><small style="color:var(--text-muted); font-style:italic;">"..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>Smartsheet</strong><br><small style="color:var(--text-muted);">Productivity and Project Management</small></td>
           <td><code>auth: api_key</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>Accurate; Smartsheet supports self-serve Bearer access tokens (plus OAuth 2.0), broad REST API, and an official MCP server.</td>
           <td><a href="https://developers.smartsheet.com/" target="_blank" rel="noopener noreferrer">Source Docs ↗</a><br><small style="color:var(--text-muted); font-style:italic;">"Explore API docs, connect to our MCP server, develop faster on SDKs, a..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge easy_win">Hit (Correct)</span></td>
         </tr>
 <tr>
           <td><strong>Stripe</strong><br><small style="color:var(--text-muted);">Finance and Fintech</small></td>
           <td><code>auth: api_key; bearer_token; basic</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>Auth, self-serve sandbox, and REST breadth are accurate, but missed Stripe's official hosted MCP server at mcp.stripe.com.</td>
           <td><a href="https://docs.stripe.com/api" target="_blank" rel="noopener noreferrer">Source Docs ↗</a><br><small style="color:var(--text-muted); font-style:italic;">"The API key that you use to authenticate the request determines whethe..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>PitchBook</strong><br><small style="color:var(--text-muted);">Finance and Fintech</small></td>
           <td><code>auth: api_key</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>No evidence URL retrieved; PitchBook has no self-serve signup or public API docs—requires custom enterprise sales contract (~$70k+/yr).</td>
           <td><span style="color:var(--text-muted);">None</span><br><small style="color:var(--text-muted); font-style:italic;">"..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>Consensus</strong><br><small style="color:var(--text-muted);">AI, Research and Media-native</small></td>
           <td><code>auth: api_key</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>No evidence URL retrieved; Consensus exposes a REST API plus an official OAuth 2.1 MCP server at mcp.consensus.app/mcp (enterprise API keys also supported).</td>
           <td><span style="color:var(--text-muted);">None</span><br><small style="color:var(--text-muted); font-style:italic;">"..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge not_buildable">Miss (Wrong)</span></td>
         </tr>
 <tr>
           <td><strong>YouTube Transcript</strong><br><small style="color:var(--text-muted);">AI, Research and Media-native</small></td>
           <td><code>auth: api_key; bearer_token</code><br><code>access: self_serve_free</code></td>
-          <td>Pending manual human grading</td>
+          <td>Accurate; transcriptapi.com offers free self-serve signup with Bearer API keys, REST endpoints, and a hosted MCP server at transcriptapi.com/mcp.</td>
           <td><a href="https://transcriptapi.com" target="_blank" rel="noopener noreferrer">Source Docs ↗</a><br><small style="color:var(--text-muted); font-style:italic;">"Get a free API key at transcriptapi.com/signup Make your first API cal..."</small></td>
-          <td><span class="badge warning">Pending Review</span></td>
+          <td><span class="badge easy_win">Hit (Correct)</span></td>
         </tr>
           </tbody>
         </table>
@@ -1213,7 +1213,7 @@ Self_Serve_Rate: 100.0% self_serve_free, 0.0% paid_plan_required, 0.0% partner_g
 Buildability: 3 easy_win, 0 buildable_with_caveats, 0 needs_outreach
 MCP_Coverage: 0.0% official MCP, 100.0% greenfield open expansion opportunity
 Verification_Audit: 3 audited, 3 rows flagged, 0 dead links, 0 missing quotes
-Ground_Truth_Accuracy: Pass 1: <span class="badge warning">not yet measured</span> | Pass 2: <span class="badge warning">not yet measured</span> (sample size: 20)
+Ground_Truth_Accuracy: Pass 1: 20.0% | Pass 2: 25.0% (sample size: 20)
 Active_LLM_Provider: groq (model: qwen/qwen3.8-27b)
 Tooling_Status: Plain-search router fallback active (Composio SDK unconfigured in .env)</pre>
     </div>
@@ -1235,7 +1235,7 @@ Tooling_Status: Plain-search router fallback active (Composio SDK unconfigured i
 </script>
 
 <script type="application/json" id="composio-accuracy-data">
-{"status": "pending_human_review", "message": "No human verdicts found in human_check.csv. Accuracy is strictly computed from human evaluation without fabrication. Please fill in 'correct' or 'wrong' in human_check.csv and re-run.", "total_sampled_apps": 20, "completed_reviews": 0, "pass1_overall_accuracy": null, "pass2_overall_accuracy": null, "field_level_accuracy_pass1": {}, "field_level_accuracy_pass2": {}}
+{"status": "completed", "total_sampled_apps": 20, "completed_reviews": 20, "overall_accuracy_pass1": 0.2, "overall_accuracy_pass2": 0.25, "overall_accuracy_delta": 0.05, "pass1_overall_accuracy": 20.0, "pass2_overall_accuracy": 25.0, "pass1_field_accuracy": {"auth": 45.0, "self_serve": 75.0, "api_type": 95.0, "existing_mcp": 50.0, "buildability": 80.0, "auth_methods": 45.0}, "pass2_field_accuracy": {"auth": 45.0, "self_serve": 75.0, "api_type": 95.0, "existing_mcp": 50.0, "buildability": 80.0, "auth_methods": 45.0}, "field_level_accuracy_pass1": {"auth": 0.45, "self_serve": 0.75, "api_type": 0.95, "existing_mcp": 0.5, "buildability": 0.8}, "field_level_accuracy_pass2": {"auth": 0.45, "self_serve": 0.75, "api_type": 0.95, "existing_mcp": 0.5, "buildability": 0.8}, "per_field_counts": {"auth": {"reviewed": 20, "pass1_correct": 9, "pass2_correct": 9}, "self_serve": {"reviewed": 20, "pass1_correct": 15, "pass2_correct": 15}, "api_type": {"reviewed": 20, "pass1_correct": 19, "pass2_correct": 19}, "existing_mcp": {"reviewed": 20, "pass1_correct": 10, "pass2_correct": 10}, "buildability": {"reviewed": 20, "pass1_correct": 16, "pass2_correct": 16}}}
 </script>
 
 <script>

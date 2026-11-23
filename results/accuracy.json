@@ -1,10 +1,67 @@
 {
-  "status": "pending_human_review",
-  "message": "No human verdicts found in human_check.csv. Accuracy is strictly computed from human evaluation without fabrication. Please fill in 'correct' or 'wrong' in human_check.csv and re-run.",
+  "status": "completed",
   "total_sampled_apps": 20,
-  "completed_reviews": 0,
-  "pass1_overall_accuracy": null,
-  "pass2_overall_accuracy": null,
-  "field_level_accuracy_pass1": {},
-  "field_level_accuracy_pass2": {}
+  "completed_reviews": 20,
+  "overall_accuracy_pass1": 0.2,
+  "overall_accuracy_pass2": 0.25,
+  "overall_accuracy_delta": 0.05,
+  "pass1_overall_accuracy": 20.0,
+  "pass2_overall_accuracy": 25.0,
+  "pass1_field_accuracy": {
+    "auth": 45.0,
+    "self_serve": 75.0,
+    "api_type": 95.0,
+    "existing_mcp": 50.0,
+    "buildability": 80.0,
+    "auth_methods": 45.0
+  },
+  "pass2_field_accuracy": {
+    "auth": 45.0,
+    "self_serve": 75.0,
+    "api_type": 95.0,
+    "existing_mcp": 50.0,
+    "buildability": 80.0,
+    "auth_methods": 45.0
+  },
+  "field_level_accuracy_pass1": {
+    "auth": 0.45,
+    "self_serve": 0.75,
+    "api_type": 0.95,
+    "existing_mcp": 0.5,
+    "buildability": 0.8
+  },
+  "field_level_accuracy_pass2": {
+    "auth": 0.45,
+    "self_serve": 0.75,
+    "api_type": 0.95,
+    "existing_mcp": 0.5,
+    "buildability": 0.8
+  },
+  "per_field_counts": {
+    "auth": {
+      "reviewed": 20,
+      "pass1_correct": 9,
+      "pass2_correct": 9
+    },
+    "self_serve": {
+      "reviewed": 20,
+      "pass1_correct": 15,
+      "pass2_correct": 15
+    },
+    "api_type": {
+      "reviewed": 20,
+      "pass1_correct": 19,
+      "pass2_correct": 19
+    },
+    "existing_mcp": {
+      "reviewed": 20,
+      "pass1_correct": 10,
+      "pass2_correct": 10
+    },
+    "buildability": {
+      "reviewed": 20,
+      "pass1_correct": 16,
+      "pass2_correct": 16
+    }
+  }
 }

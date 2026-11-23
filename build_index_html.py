@@ -180,12 +180,21 @@ def generate_index_html():
 
     # Accuracy Metrics (Honest check from accuracy.json)
     acc_status = accuracy_data.get("status", "pending_human_review")
-    sample_size = accuracy_data.get("sample_size", len(human_check_rows) or 20)
+    sample_size = accuracy_data.get("sample_size") or accuracy_data.get("completed_reviews") or accuracy_data.get("total_sampled_apps") or len(human_check_rows) or 20
     if acc_status == "completed":
-        pass1_accuracy_display = f"{accuracy_data.get('pass1_overall_accuracy', 0)}%"
-        pass2_accuracy_display = f"{accuracy_data.get('pass2_overall_accuracy', 0)}%"
-        p1_field_acc = accuracy_data.get("pass1_field_accuracy", {})
-        p2_field_acc = accuracy_data.get("pass2_field_accuracy", {})
+        p1_overall = accuracy_data.get("overall_accuracy_pass1")
+        if p1_overall is None:
+            p1_overall = accuracy_data.get("pass1_overall_accuracy", 0)
+        p2_overall = accuracy_data.get("overall_accuracy_pass2")
+        if p2_overall is None:
+            p2_overall = accuracy_data.get("pass2_overall_accuracy", 0)
+        p1_num = p1_overall * 100 if (isinstance(p1_overall, (int, float)) and p1_overall <= 1.0) else p1_overall
+        p2_num = p2_overall * 100 if (isinstance(p2_overall, (int, float)) and p2_overall <= 1.0) else p2_overall
+        pass1_accuracy_display = f"{round(p1_num, 1)}%"
+        pass2_accuracy_display = f"{round(p2_num, 1)}%"
+
+        p1_field_acc = accuracy_data.get("field_level_accuracy_pass1") or accuracy_data.get("pass1_field_accuracy") or {}
+        p2_field_acc = accuracy_data.get("field_level_accuracy_pass2") or accuracy_data.get("pass2_field_accuracy") or {}
     else:
         pass1_accuracy_display = '<span class="badge warning">not yet measured</span>'
         pass2_accuracy_display = '<span class="badge warning">not yet measured</span>'
@@ -239,7 +248,7 @@ def generate_index_html():
 
         if overall_v in ["correct", "true", "1", "pass", "yes", "valid", "y"]:
             status_badge = '<span class="badge easy_win">Hit (Correct)</span>'
-            truth_text = "Verified accurate"
+            truth_text = r.get("human_notes") or "Verified accurate across all fields"
         elif overall_v in ["wrong", "false", "0", "fail", "no", "invalid", "n"]:
             status_badge = '<span class="badge not_buildable">Miss (Wrong)</span>'
             truth_text = r.get("human_notes") or "Flagged as discrepancy"
@@ -260,16 +269,37 @@ def generate_index_html():
 
     # Per-Field Accuracy Table Rows
     field_labels = [
-        ("auth_methods", "Authentication Methods", "Docs auth page inspection & token discovery"),
-        ("self_serve", "Self-Serve Status", "Pricing tier & developer signup portal verification"),
-        ("api_type", "API Architecture", "REST, GraphQL, SOAP, or CLI utility classification"),
-        ("existing_mcp", "Existing MCP Server", "GitHub API repo & registry cross-check"),
-        ("buildability", "Buildability Feasibility", "Composite feasibility rating based on access gates"),
+        ("auth", ["auth", "auth_methods"], "Authentication Methods", "Docs auth page inspection & token discovery"),
+        ("self_serve", ["self_serve"], "Self-Serve Status", "Pricing tier & developer signup portal verification"),
+        ("api_type", ["api_type"], "API Architecture", "REST, GraphQL, SOAP, or CLI utility classification"),
+        ("existing_mcp", ["existing_mcp"], "Existing MCP Server", "GitHub API repo & registry cross-check"),
+        ("buildability", ["buildability"], "Buildability Feasibility", "Composite feasibility rating based on access gates"),
     ]
     per_field_rows = []
-    for f_key, f_label, f_method in field_labels:
-        p1_val = f"{p1_field_acc.get(f_key)}%" if f_key in p1_field_acc else '<span class="badge warning">not yet measured</span>'
-        p2_val = f"{p2_field_acc.get(f_key)}%" if f_key in p2_field_acc else '<span class="badge warning">not yet measured</span>'
+    for f_key, aliases, f_label, f_method in field_labels:
+        p1_raw = None
+        for a in aliases:
+            if a in p1_field_acc and p1_field_acc[a] is not None:
+                p1_raw = p1_field_acc[a]
+                break
+        p2_raw = None
+        for a in aliases:
+            if a in p2_field_acc and p2_field_acc[a] is not None:
+                p2_raw = p2_field_acc[a]
+                break
+
+        if p1_raw is not None:
+            p1_num = p1_raw * 100 if (isinstance(p1_raw, (int, float)) and p1_raw <= 1.0) else p1_raw
+            p1_val = f"{round(p1_num, 1)}%"
+        else:
+            p1_val = '<span class="badge warning">not yet measured</span>'
+
+        if p2_raw is not None:
+            p2_num = p2_raw * 100 if (isinstance(p2_raw, (int, float)) and p2_raw <= 1.0) else p2_raw
+            p2_val = f"{round(p2_num, 1)}%"
+        else:
+            p2_val = '<span class="badge warning">not yet measured</span>'
+
         per_field_rows.append(f"""<tr>
           <td><strong>{f_label}</strong></td>
           <td>{p1_val}</td>

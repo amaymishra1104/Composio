@@ -182,6 +182,16 @@ def compute_accuracy(
         "overall_accuracy_pass1": overall_acc_p1,
         "overall_accuracy_pass2": overall_acc_p2,
         "overall_accuracy_delta": delta,
+        "pass1_overall_accuracy": round(overall_acc_p1 * 100, 1),
+        "pass2_overall_accuracy": round(overall_acc_p2 * 100, 1),
+        "pass1_field_accuracy": {
+            **{k: round(acc_p1[k] * 100, 1) for k in acc_p1 if acc_p1[k] is not None},
+            "auth_methods": round(acc_p1["auth"] * 100, 1) if acc_p1.get("auth") is not None else None,
+        },
+        "pass2_field_accuracy": {
+            **{k: round(acc_p2[k] * 100, 1) for k in acc_p2 if acc_p2[k] is not None},
+            "auth_methods": round(acc_p2["auth"] * 100, 1) if acc_p2.get("auth") is not None else None,
+        },
         "field_level_accuracy_pass1": acc_p1,
         "field_level_accuracy_pass2": acc_p2,
         "per_field_counts": {
