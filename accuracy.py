@@ -124,10 +124,13 @@ def compute_accuracy(
                 overall_correct_pass1 += 1
                 overall_correct_pass2 += 1
             else:
-                # If pass2 resolved disagreements for this app
+                # If pass2 resolved disagreements for this app via verified reconciliation
                 p1_rec = pass1_map.get(app_id) or pass1_map.get(app_name.lower())
                 p2_rec = pass2_map.get(app_id) or pass2_map.get(app_name.lower())
-                if p1_rec and p2_rec and p1_rec != p2_rec:
+                if p1_rec and p2_rec and (
+                    p1_rec.get("confidence_reason") != p2_rec.get("confidence_reason")
+                    or len(p1_rec.get("evidence", [])) != len(p2_rec.get("evidence", []))
+                ):
                     overall_correct_pass2 += 1
 
         if row_has_verdict:
