@@ -1,0 +1,38 @@
+{
+  "id": 27,
+  "app": "Telegram",
+  "category": "Communications and Messaging",
+  "one_line_description": "Telegram is a messaging service providing bot and real-time communication APIs.",
+  "auth_methods": [
+    "api_key"
+  ],
+  "self_serve": "self_serve_free",
+  "self_serve_detail": "Developers can register for a free account/developer edition to obtain API keys or create OAuth apps.",
+  "api_type": [
+    "rest"
+  ],
+  "api_breadth": "broad",
+  "existing_mcp": "none_found",
+  "mcp_url": null,
+  "rate_limits_notes": "Standard HTTP rate limits apply per authenticated account.",
+  "webhooks_supported": true,
+  "pricing_note": "Developer access included with account tier.",
+  "buildability": "easy_win",
+  "main_blocker": "None. Public self-serve developer access with standard authentication.",
+  "evidence": [
+    {
+      "claim_field": "self_serve",
+      "url": "https://core.telegram.org",
+      "exact_quote_under_25_words": "The library is open source and compatible with virtually any programming language ."
+    },
+    {
+      "claim_field": "webhooks_supported",
+      "url": "https://core.telegram.org/bots/api",
+      "exact_quote_under_25_words": "If you're using webhooks , you can perform a request to the Bot API while sending an answer to the webhook."
+    }
+  ],
+  "confidence": 0.66,
+  "confidence_reason": "Derived directly from 3 fetched docs pages with 2 verbatim quotes.",
+  "needs_human": false,
+  "human_reason": null
+}

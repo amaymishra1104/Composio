@@ -1,0 +1,9 @@
+{
+  "url": "https://docs.twenty.com/developers/extend/api",
+  "title": "APIs - Twenty Documentation",
+  "meta_description": "REST and GraphQL APIs generated from your workspace schema.",
+  "clean_text": "### Documentation Index\n\nFetch the complete documentation index at: /llms.txt\nUse this file to discover all available pages before exploring further.\n\n### Schema-per-tenant APIs\n\nInvoice\nCompany\nPerson\n\n### Two APIs\n\n/rest/\n/graphql/\n/rest/metadata/\n/metadata/\n\n### Base URLs\n\nEnvironment Base URL Cloud https://api.twenty.com/ Self-Hosted https://{your-domain}/\nEnvironment\nBase URL\nCloud\nhttps://api.twenty.com/\nhttps://api.twenty.com/\nSelf-Hosted\nhttps://{your-domain}/\nhttps://{your-domain}/\n\n### Authentication\n\nAuthorization: Bearer YOUR_API_KEY\nAuthorization: Bearer YOUR_API_KEY\n\n### Batch operations\n\nCreateCompanies\n\n### Selecting fields (REST)\n\nfields\nGET /rest/people?fields=id,name,emails,company\nGET /rest/people?fields=id,name,emails,company\nid is always returned.\nComposite fields (like emails or name ) are selected as a whole by their field name.\nemails\nname\nA many-to-one relation field returns its join column (e.g. companyId ) with depth=0 . One-to-many relation fields are only returned with depth=1 . With depth=1 , only the relation fields listed in fields are expanded.\ncompanyId\ndepth=0\ndepth=1\ndepth=1\nfields\nUnknown fields, or fields your role cannot read, return a 400 error.\nfields\ncreatedAt\nupdatedAt\ndeletedAt\nposition\nfields\n\n### Rate limits\n\nLimit Value Requests 100 per minute Batch size 60 records per call\nLimit\nValue\nRequests\n100 per minute\nBatch size\n60 records per call\nWas this page helpful?",
+  "status_code": 200,
+  "cached": false,
+  "fetched_at": "2026-11-23T20:03:10Z"
+}

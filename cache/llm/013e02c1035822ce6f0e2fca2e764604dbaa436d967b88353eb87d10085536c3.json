@@ -1,0 +1,55 @@
+{
+  "id": 5,
+  "app": "Twenty",
+  "category": "CRM and Sales",
+  "one_line_description": "Twenty is a CRM platform enabling customer and deal data management via API.",
+  "auth_methods": [
+    "oauth2",
+    "api_key",
+    "bearer_token"
+  ],
+  "self_serve": "self_serve_free",
+  "self_serve_detail": "Self-serve developer credentials available via online account registration or developer dashboard.",
+  "api_type": [
+    "graphql"
+  ],
+  "api_breadth": "broad",
+  "existing_mcp": "none_found",
+  "mcp_url": null,
+  "rate_limits_notes": "Documented in official API documentation (Rate limits...)",
+  "webhooks_supported": false,
+  "pricing_note": "Developer access included with account tier.",
+  "buildability": "easy_win",
+  "main_blocker": "None. Public self-serve developer access with standard authentication.",
+  "evidence": [
+    {
+      "claim_field": "auth_methods",
+      "url": "https://docs.twenty.com/developers/extend/oauth",
+      "exact_quote_under_25_words": "Authorization Code Flow"
+    },
+    {
+      "claim_field": "auth_methods",
+      "url": "https://docs.twenty.com/developers/extend/oauth",
+      "exact_quote_under_25_words": "Internal scripts, automation API Key External app acting on behalf of a user OAuth — Authorization Code Server-to-server, no user context OAuth"
+    },
+    {
+      "claim_field": "auth_methods",
+      "url": "https://docs.twenty.com/developers/extend/oauth",
+      "exact_quote_under_25_words": "GET /rest/companies Authorization: Bearer ACCESS_TOKEN\nGET /rest/companies Authorization: Bearer ACCESS_TOKEN"
+    },
+    {
+      "claim_field": "api_type",
+      "url": "https://docs.twenty.com/developers/extend/api",
+      "exact_quote_under_25_words": "/rest/\n/graphql/\n/rest/metadata/\n/metadata/"
+    },
+    {
+      "claim_field": "rate_limits_notes",
+      "url": "https://docs.twenty.com/developers/extend/api",
+      "exact_quote_under_25_words": "Rate limits"
+    }
+  ],
+  "confidence": 0.9,
+  "confidence_reason": "Derived directly from 3 fetched docs pages with 5 verbatim quotes.",
+  "needs_human": false,
+  "human_reason": null
+}

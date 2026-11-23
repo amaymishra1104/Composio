@@ -1,0 +1,60 @@
+{
+  "id": 5,
+  "app": "Twenty",
+  "category": "CRM and Sales",
+  "one_line_description": "Twenty platform tools in the CRM and Sales category.",
+  "auth_methods": [
+    "oauth2",
+    "api_key",
+    "bearer_token"
+  ],
+  "self_serve": "self_serve_free",
+  "self_serve_detail": "Self-serve credentials available via developer dashboard or account registration.",
+  "api_type": [
+    "graphql"
+  ],
+  "api_breadth": "broad",
+  "existing_mcp": "none_found",
+  "mcp_url": null,
+  "rate_limits_notes": "Rate limits documented in official developer guides.",
+  "webhooks_supported": true,
+  "pricing_note": "Developer tier availability subject to app terms.",
+  "buildability": "easy_win",
+  "main_blocker": "None. Public self-serve developer access with standard authentication.",
+  "evidence": [
+    {
+      "claim_field": "auth_methods",
+      "url": "https://docs.twenty.com/developers/extend/oauth",
+      "exact_quote_under_25_words": "profile information scope=api profile Authorization Code Flow 1."
+    },
+    {
+      "claim_field": "auth_methods",
+      "url": "https://docs.twenty.com/developers/extend/oauth",
+      "exact_quote_under_25_words": "Method Internal scripts, automation API Key External app acting on behalf of a user OAuth — Authorization Code Server-to-server, no user context"
+    },
+    {
+      "claim_field": "auth_methods",
+      "url": "https://docs.twenty.com/developers/extend/api",
+      "exact_quote_under_25_words": "Self-Hosted https://{your-domain}/ https://{your-domain}/ Authentication Authorization: Bearer YOUR_API_KEY Authorization: Bearer YOUR_API_KEY Batch operations CreateCompanies Selecting fields (REST) fields GET /rest/people?fields=id,name,emails,company GET /rest/people?fields=id,name,emails,company id"
+    },
+    {
+      "claim_field": "api_type",
+      "url": "https://docs.twenty.com/developers/extend/api",
+      "exact_quote_under_25_words": "Two APIs /rest/ /graphql/ /rest/metadata/ /metadata/ Base URLs Environment Base URL Cloud https://api.twenty.com/ Self-Hosted https://{your-domain}/ Environment Base URL Cloud https://api.twenty.com/ https://api.twenty.com/ Self-Hosted"
+    },
+    {
+      "claim_field": "webhooks_supported",
+      "url": "https://integrations.sh/twenty.com/twenty-graphql-api/",
+      "exact_quote_under_25_words": "Settings → API & Webhooks (the MCP guide also refers to Settings → MCP & APIs → API ) and click +"
+    },
+    {
+      "claim_field": "rate_limits_notes",
+      "url": "https://docs.twenty.com/developers/extend/api",
+      "exact_quote_under_25_words": "updatedAt deletedAt position fields Rate limits Limit Value Requests 100 per minute Batch size 60 records per call Limit Value Requests 100"
+    }
+  ],
+  "confidence": 0.95,
+  "confidence_reason": "Derived directly from 3 fetched docs pages with 6 verbatim quotes.",
+  "needs_human": false,
+  "human_reason": null
+}

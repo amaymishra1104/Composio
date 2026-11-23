@@ -1,0 +1,9 @@
+{
+  "url": "https://docs.salesforce.com",
+  "title": "Salesforce Docs Portal",
+  "meta_description": "",
+  "clean_text": "### Salesforce Docs Portal\n\nOfficial Salesforce documentation in formats designed for agents, LLMs, and direct HTTP retrieval.\nAdmin : Salesforce administrator and end-user help across Salesforce products.\nArchitect : Salesforce architecture guidance for designing secure, reliable, and integrated solutions.\nDeveloper : Salesforce APIs, programming guides, SDKs, and reference documentation.\nLegacy Developer : Legacy Atlas-format Salesforce developer reference that is migrating to the Developer collection.\nMuleSoft : MuleSoft Anypoint Platform, connectors, DataWeave, runtime, and related tools.\nTableau : Tableau Desktop, Server, Cloud, Prep, Public, APIs, and Blueprint documentation.",
+  "status_code": 200,
+  "cached": false,
+  "fetched_at": "2026-11-23T20:00:46Z"
+}

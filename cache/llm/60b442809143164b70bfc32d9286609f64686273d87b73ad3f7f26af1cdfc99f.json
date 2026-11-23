@@ -1,0 +1,44 @@
+{
+  "id": 1,
+  "app": "Salesforce",
+  "category": "CRM and Sales",
+  "one_line_description": "Salesforce is a CRM platform enabling customer and deal data management via API.",
+  "auth_methods": [
+    "api_key"
+  ],
+  "self_serve": "self_serve_free",
+  "self_serve_detail": "Self-serve developer credentials available via online account registration or developer dashboard.",
+  "api_type": [
+    "rest",
+    "soap"
+  ],
+  "api_breadth": "broad",
+  "existing_mcp": "official",
+  "mcp_url": "https://www.salesforce.com/in/?ir=1",
+  "rate_limits_notes": "Standard HTTP rate limits apply per authenticated account.",
+  "webhooks_supported": false,
+  "pricing_note": "Developer access included with account tier.",
+  "buildability": "easy_win",
+  "main_blocker": "None. Public self-serve developer access with standard authentication.",
+  "evidence": [
+    {
+      "claim_field": "api_type",
+      "url": "https://developer.salesforce.com/docs/platform/api-rest/guide/intro-what-is-rest-api.html",
+      "exact_quote_under_25_words": "About REST API"
+    },
+    {
+      "claim_field": "api_type",
+      "url": "https://developer.salesforce.com/docs/platform/api-rest/guide/intro-what-is-rest-api.html",
+      "exact_quote_under_25_words": "It’s simpler to use than SOAP API but still provides plenty of functionality."
+    },
+    {
+      "claim_field": "existing_mcp",
+      "url": "https://www.salesforce.com/in/?ir=1",
+      "exact_quote_under_25_words": "a prebuilt Salesforce MCP server with 37 ready-to-use sales skills, from prospecting to pipeline hygiene — bringing Salesforce context and actions directly"
+    }
+  ],
+  "confidence": 0.74,
+  "confidence_reason": "Derived directly from 2 fetched docs pages with 3 verbatim quotes.",
+  "needs_human": false,
+  "human_reason": null
+}
