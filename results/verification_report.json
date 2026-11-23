@@ -1,0 +1,141 @@
+{
+  "total_apps_reviewed": 3,
+  "rows_flagged": 0,
+  "flagged_app_ids": [],
+  "per_field_disagreement_rate": {
+    "self_serve": 0.0,
+    "existing_mcp": 0.0,
+    "auth_methods": 0.0
+  },
+  "failure_types_breakdown": {
+    "dead_link": 0,
+    "quote_not_found": 0,
+    "outdated_docs": 0,
+    "ambiguous_gating": 0,
+    "cross_check_disagreement": 0
+  },
+  "common_failure_summary": [
+    "0 dead links detected (404/connection failure)",
+    "0 quotes not found on page via fuzzy match",
+    "0 instances of ambiguous pricing or sales gating",
+    "0 instances of outdated/deprecated API documentation",
+    "0 discrepancies detected across high-risk fields"
+  ],
+  "details": [
+    {
+      "id": 1,
+      "app": "Salesforce",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 3,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "official",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "app": "Twenty",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 5,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "oauth2",
+            "api_key",
+            "bearer_token"
+          ],
+          "cross_check_value": [
+            "oauth2",
+            "api_key",
+            "bearer_token"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    },
+    {
+      "id": 27,
+      "app": "Telegram",
+      "flagged": false,
+      "objections": [],
+      "audits_count": 2,
+      "cross_checks": [
+        {
+          "field": "self_serve",
+          "pass1_value": "self_serve_free",
+          "cross_check_value": "self_serve_free",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree."
+        },
+        {
+          "field": "existing_mcp",
+          "pass1_value": "none_found",
+          "cross_check_value": "none_found",
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check agree on MCP availability."
+        },
+        {
+          "field": "auth_methods",
+          "pass1_value": [
+            "api_key"
+          ],
+          "cross_check_value": [
+            "api_key"
+          ],
+          "disagreement": false,
+          "evidence_url": null,
+          "note": "Pass 1 and cross-check auth methods are consistent."
+        }
+      ]
+    }
+  ]
+}

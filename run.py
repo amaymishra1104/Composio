@@ -140,6 +140,11 @@ async def main():
         help="Bypass disk cache and force re-fetching",
     )
     parser.add_argument(
+        "--verify",
+        action="store_true",
+        help="Run the automated verification stage (Pass 1 -> Verification -> Pass 2)",
+    )
+    parser.add_argument(
         "--verbose",
         "-v",
         action="store_true",
@@ -148,6 +153,24 @@ async def main():
 
     args = parser.parse_args()
     setup_logging(args.verbose)
+
+    if args.verify:
+        from core.verifier import VerificationEngine
+        console.print("[bold cyan]=== Running Automated Verification Stage ===[/]\n")
+        engine = VerificationEngine(concurrency_limit=args.concurrency)
+        report = await engine.verify_pass1(
+            pass1_path="results/pass1.json",
+            apps_csv="apps.csv",
+            output_dir="results",
+        )
+        console.print(
+            f"\n[bold green]Verification completed:[/]\n"
+            f"  - Reviewed: [cyan]{report.total_apps_reviewed}[/]\n"
+            f"  - Flagged for Revision: [cyan]{report.rows_flagged}[/]\n"
+            f"  - Report: [cyan]results/verification_report.json[/]\n"
+            f"  - Pass 2 Output: [cyan]results/pass2.json[/] and [cyan]results/pass2.csv[/]\n"
+        )
+        return
 
     specific_list = [a.strip() for a in args.apps.split(",")] if args.apps else None
     apps = load_apps(

@@ -1,0 +1,10 @@
+{
+  "status": "pending_human_review",
+  "message": "No human verdicts found in human_check.csv. Accuracy is strictly computed from human evaluation without fabrication. Please fill in 'correct' or 'wrong' in human_check.csv and re-run.",
+  "total_sampled_apps": 20,
+  "completed_reviews": 0,
+  "pass1_overall_accuracy": null,
+  "pass2_overall_accuracy": null,
+  "field_level_accuracy_pass1": {},
+  "field_level_accuracy_pass2": {}
+}

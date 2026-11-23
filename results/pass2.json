@@ -1,0 +1,139 @@
+[
+  {
+    "id": 1,
+    "app": "Salesforce",
+    "category": "CRM and Sales",
+    "one_line_description": "Salesforce is a CRM platform enabling customer and deal data management via API.",
+    "auth_methods": [
+      "api_key"
+    ],
+    "self_serve": "self_serve_free",
+    "self_serve_detail": "Self-serve developer credentials available via online account registration or developer dashboard.",
+    "api_type": [
+      "rest",
+      "soap"
+    ],
+    "api_breadth": "broad",
+    "existing_mcp": "official",
+    "mcp_url": "https://www.salesforce.com/in/?ir=1",
+    "rate_limits_notes": "Standard HTTP rate limits apply per authenticated account.",
+    "webhooks_supported": false,
+    "pricing_note": "Developer access included with account tier.",
+    "buildability": "easy_win",
+    "main_blocker": "None. Public self-serve developer access with standard authentication.",
+    "evidence": [
+      {
+        "claim_field": "api_type",
+        "url": "https://developer.salesforce.com/docs/platform/api-rest/guide/intro-what-is-rest-api.html",
+        "exact_quote_under_25_words": "About REST API"
+      },
+      {
+        "claim_field": "api_type",
+        "url": "https://developer.salesforce.com/docs/platform/api-rest/guide/intro-what-is-rest-api.html",
+        "exact_quote_under_25_words": "It’s simpler to use than SOAP API but still provides plenty of functionality."
+      },
+      {
+        "claim_field": "existing_mcp",
+        "url": "https://www.salesforce.com/in/?ir=1",
+        "exact_quote_under_25_words": "a prebuilt Salesforce MCP server with 37 ready-to-use sales skills, from prospecting to pipeline hygiene — bringing Salesforce context and actions directly"
+      }
+    ],
+    "confidence": 0.79,
+    "confidence_reason": "Derived directly from 2 fetched docs pages with 3 verbatim quotes.",
+    "needs_human": false,
+    "human_reason": null
+  },
+  {
+    "id": 5,
+    "app": "Twenty",
+    "category": "CRM and Sales",
+    "one_line_description": "Twenty is a CRM platform enabling customer and deal data management via API.",
+    "auth_methods": [
+      "oauth2",
+      "api_key",
+      "bearer_token"
+    ],
+    "self_serve": "self_serve_free",
+    "self_serve_detail": "Self-serve developer credentials available via online account registration or developer dashboard.",
+    "api_type": [
+      "graphql"
+    ],
+    "api_breadth": "broad",
+    "existing_mcp": "none_found",
+    "mcp_url": null,
+    "rate_limits_notes": "Documented in official API documentation (Rate limits...)",
+    "webhooks_supported": false,
+    "pricing_note": "Developer access included with account tier.",
+    "buildability": "easy_win",
+    "main_blocker": "None. Public self-serve developer access with standard authentication.",
+    "evidence": [
+      {
+        "claim_field": "auth_methods",
+        "url": "https://docs.twenty.com/developers/extend/oauth",
+        "exact_quote_under_25_words": "Authorization Code Flow"
+      },
+      {
+        "claim_field": "auth_methods",
+        "url": "https://docs.twenty.com/developers/extend/oauth",
+        "exact_quote_under_25_words": "Internal scripts, automation API Key External app acting on behalf of a user OAuth — Authorization Code Server-to-server, no user context OAuth"
+      },
+      {
+        "claim_field": "auth_methods",
+        "url": "https://docs.twenty.com/developers/extend/oauth",
+        "exact_quote_under_25_words": "GET /rest/companies Authorization: Bearer ACCESS_TOKEN GET /rest/companies Authorization: Bearer ACCESS_TOKEN"
+      },
+      {
+        "claim_field": "api_type",
+        "url": "https://docs.twenty.com/developers/extend/api",
+        "exact_quote_under_25_words": "/rest/ /graphql/ /rest/metadata/ /metadata/"
+      },
+      {
+        "claim_field": "rate_limits_notes",
+        "url": "https://docs.twenty.com/developers/extend/api",
+        "exact_quote_under_25_words": "Rate limits"
+      }
+    ],
+    "confidence": 0.9500000000000001,
+    "confidence_reason": "Derived directly from 3 fetched docs pages with 5 verbatim quotes.",
+    "needs_human": false,
+    "human_reason": null
+  },
+  {
+    "id": 27,
+    "app": "Telegram",
+    "category": "Communications and Messaging",
+    "one_line_description": "Telegram is a messaging service providing bot and real-time communication APIs.",
+    "auth_methods": [
+      "api_key"
+    ],
+    "self_serve": "self_serve_free",
+    "self_serve_detail": "Developers can register for a free account/developer edition to obtain API keys or create OAuth apps.",
+    "api_type": [
+      "rest"
+    ],
+    "api_breadth": "broad",
+    "existing_mcp": "none_found",
+    "mcp_url": null,
+    "rate_limits_notes": "Standard HTTP rate limits apply per authenticated account.",
+    "webhooks_supported": true,
+    "pricing_note": "Developer access included with account tier.",
+    "buildability": "easy_win",
+    "main_blocker": "None. Public self-serve developer access with standard authentication.",
+    "evidence": [
+      {
+        "claim_field": "self_serve",
+        "url": "https://core.telegram.org",
+        "exact_quote_under_25_words": "The library is open source and compatible with virtually any programming language ."
+      },
+      {
+        "claim_field": "webhooks_supported",
+        "url": "https://core.telegram.org/bots/api",
+        "exact_quote_under_25_words": "If you're using webhooks , you can perform a request to the Bot API while sending an answer to the webhook."
+      }
+    ],
+    "confidence": 0.7100000000000001,
+    "confidence_reason": "Derived directly from 3 fetched docs pages with 2 verbatim quotes.",
+    "needs_human": false,
+    "human_reason": null
+  }
+]

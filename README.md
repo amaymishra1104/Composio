@@ -13,22 +13,26 @@ app-research-agent/
 ├── apps.csv                 # 100 target apps across 10 distinct categories
 ├── config.py                # Environment configuration (Pydantic Settings)
 ├── schema.py                # Strict Pydantic models for feasibility records & evidence
-├── run.py                   # Main CLI entrypoint
+├── run.py                   # Main CLI entrypoint (supports --pass 1, --sample, --verify)
+├── verifier.py              # Verification engine CLI (audits Pass 1 -> outputs Pass 2)
+├── generate_human_check.py  # Stratified 20-app sampler generator
+├── human_check.csv          # Ground-truth review sheet for manual human evaluation
+├── accuracy.py              # Computes field-level & overall accuracy (never fabricated)
 ├── core/
 │   ├── cache.py             # Atomic disk caching (pages, search, LLM responses)
 │   ├── fetcher.py           # Async HTTP fetcher with anti-bot headers & bounded concurrency
 │   ├── search.py            # Search router: Composio SDK -> Tavily/Brave -> Plain DDG
 │   ├── extractor.py         # Grounded text analyzer & verbatim quote miner
 │   ├── llm.py               # Configurable LLM client (OpenAI, Gemini, Groq, Claude, Ollama, Heuristic)
-│   ├── verifier.py          # Evidence verification loop (ensures quotes exist on page)
+│   ├── verifier.py          # Evidence verification & cross-check engine
 │   └── pipeline.py          # Master coordinator
 ├── cache/                   # Persistent cache directory
-│   ├── pages/
-│   ├── search/
-│   └── llm/
 ├── results/                 # Pipeline deliverables
-│   ├── pass1.json           # Structured JSON array
-│   ├── pass1.csv            # Structured tabular CSV
+│   ├── pass1.json / .csv    # Initial research findings
+│   ├── pass2.json / .csv    # Stricter revised findings post-verification
+│   ├── verification_report.json # Audit findings, failure types & disagreement rates
+│   ├── human_check.csv      # Stratified human audit sample
+│   ├── accuracy.json        # Ground-truth verified accuracy metrics
 │   └── human_queue.csv      # Triage queue for unverified/low-confidence apps
 └── tests/                   # Pytest test suite
 ```
@@ -88,6 +92,34 @@ CONCURRENCY_LIMIT=5
 CACHE_DIR=cache
 ```
 *Note: If no API key is provided, the agent seamlessly operates in offline Heuristic Verbatim mode, extracting structured facts and genuine quotes directly from fetched DOM text.*
+
+### Verification & Accuracy Workflow
+
+1. **Run Verification Stage (Pass 1 -> Pass 2)**:
+   ```bash
+   python verifier.py
+   # Or alternatively:
+   python run.py --verify
+   ```
+   - Re-fetches every evidence URL in `results/pass1.json` to verify:
+     1. URL loads (flags `dead_link`)
+     2. Quoted text actually appears on page via fuzzy token matching (flags `quote_not_found`)
+     3. Quote genuinely supports the claim via LLM judge (flags `outdated_docs` or `ambiguous_gating`)
+   - Performs independent orthogonal cross-checks on highest-risk fields (`self_serve`, `existing_mcp`, `auth_methods`).
+   - For flagged rows, executes a stricter Pass 2 re-research prompt feeding previous answers and verifier objections.
+   - Outputs: `results/pass2.json`, `results/pass2.csv`, and `results/verification_report.json`.
+
+2. **Generate Human Verification Sample**:
+   ```bash
+   python generate_human_check.py
+   ```
+   Produces `human_check.csv` with a stratified sample of 20 apps (exactly 2 per category) and empty columns (`human_verdict_auth`, `human_verdict_self_serve`, etc.) for manual human ground-truth marking.
+
+3. **Compute Real Accuracy (Never Fabricated)**:
+   ```bash
+   python accuracy.py
+   ```
+   Reads `human_check.csv`. If unfilled, reports pending status. When filled with verdicts (`correct` or `wrong`), computes field-level and overall accuracy for Pass 1 vs Pass 2, delta improvement, and writes `results/accuracy.json`.
 
 ---
 
